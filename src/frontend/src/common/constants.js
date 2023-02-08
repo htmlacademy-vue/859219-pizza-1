@@ -1,6 +1,9 @@
 export const MIN_VALUE = 0;
 export const MAX_VALUE = 3;
 
+export const MOVE = "move";
+export const DATA_TRANSFER_PAYLOAD = "payload";
+
 export const Dough = {
   1: "light",
   2: "large",
