@@ -1,55 +1,52 @@
 <template>
-  <div class="content__pizza">
-    <label class="input">
-      <span class="visually-hidden">Название пиццы</span>
-      <input
-        type="text"
-        name="pizza_name"
-        placeholder="Введите название пиццы"
-        :value="value"
-        @input="$emit('input', $event.target.value)"
-      />
-    </label>
+  <Drop @drop="changeCounterValue">
+    <div class="content__pizza">
+      <label class="input">
+        <span class="visually-hidden">Название пиццы</span>
+        <input
+          type="text"
+          name="pizza_name"
+          placeholder="Введите название пиццы"
+          :value="value"
+          @input="$emit('input', $event.target.value)"
+        />
+      </label>
 
-    <div class="content__constructor">
-      <div class="pizza" :class="pizzaFoundationClass">
-        <div class="pizza__wrapper">
-          <div
-            class="pizza__filling"
-            v-for="ingredient in selectedItems.ingredients"
-            :key="ingredient.id"
-            :class="[
-              `pizza__filling--${Ingredient[ingredient.id]}`,
-              {
-                'pizza__filling--second': ingredient.value === 2,
-                'pizza__filling--third': ingredient.value === 3,
-              },
-            ]"
-          />
+      <div class="content__constructor">
+        <div class="pizza" :class="pizzaFoundationClass">
+          <div class="pizza__wrapper">
+            <div
+              class="pizza__filling"
+              v-for="ingredient in selectedItems.ingredients"
+              :key="ingredient.id"
+              :class="pizzaFillingClass(ingredient)"
+            />
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="content__result">
-      <BuilderPriceCounter :items="items" :selected-items="selectedItems" />
-      <button
-        type="button"
-        class="button"
-        :disabled="!value.length || !selectedItems.ingredients.length"
-      >
-        Готовьте!
-      </button>
+      <div class="content__result">
+        <BuilderPriceCounter :items="items" :selected-items="selectedItems" />
+        <button
+          type="button"
+          class="button"
+          :disabled="!value.length || !selectedItems.ingredients.length"
+        >
+          Готовьте!
+        </button>
+      </div>
     </div>
-  </div>
+  </Drop>
 </template>
 
 <script>
-import BuilderPriceCounter from "./BuilderPriceCounter";
 import { Ingredient, Sauce } from "../../../common/constants";
+import Drop from "../../../common/hocs/Drop";
+import BuilderPriceCounter from "./BuilderPriceCounter";
 
 export default {
   name: "BuilderPizzaView",
-  components: { BuilderPriceCounter },
+  components: { Drop, BuilderPriceCounter },
   computed: {
     pizzaFoundationClass() {
       const selectedDough = this.selectedItems.dough.id === 1 ? "small" : "big";
@@ -58,10 +55,23 @@ export default {
       return `pizza--foundation--${selectedDough}-${selectedSauce}`;
     },
   },
-  data() {
-    return {
-      Ingredient,
-    };
+  methods: {
+    pizzaFillingClass({ id, value }) {
+      return [
+        `pizza__filling--${Ingredient[id]}`,
+        {
+          "pizza__filling--second": value === 2,
+          "pizza__filling--third": value === 3,
+        },
+      ];
+    },
+    changeCounterValue({ id }) {
+      this.$emit("change-selected-item", {
+        name: "ingredients",
+        id,
+        value: 1,
+      });
+    },
   },
   props: {
     items: {

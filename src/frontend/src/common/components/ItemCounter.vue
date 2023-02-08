@@ -49,16 +49,14 @@ export default {
     },
     isPlusDisabled() {
       return (
-        this.selectedItems.ingredients.filter(
-          (item) => item.id === this.item.id
-        )[0]?.value === 3
+        this.selectedItems.ingredients.find((item) => item.id === this.item.id)
+          ?.value === MAX_VALUE
       );
     },
     counterValue() {
       return (
-        this.selectedItems.ingredients.filter(
-          (item) => item.id === this.item.id
-        )[0]?.value ?? 0
+        this.selectedItems.ingredients.find((item) => item.id === this.item.id)
+          ?.value ?? MIN_VALUE
       );
     },
   },

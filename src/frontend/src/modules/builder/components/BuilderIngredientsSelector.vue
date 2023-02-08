@@ -34,7 +34,10 @@
               v-for="ingredient in items.ingredients"
               :key="ingredient.id"
             >
-              <SelectorItem :item="ingredient" />
+              <SelectorItem
+                :item="ingredient"
+                :selected-items="selectedItems"
+              />
 
               <ItemCounter
                 :item="ingredient"

@@ -1,14 +1,28 @@
 <template>
-  <span class="filling" :class="`filling--${Ingredient[item.id]}`">
-    {{ item.name }}
-  </span>
+  <Drag :transfer-data="item" :draggable="isDraggable(item.id)">
+    <span class="filling" :class="`filling--${Ingredient[item.id]}`">
+      {{ item.name }}
+    </span>
+  </Drag>
 </template>
 
 <script>
-import { Ingredient } from "../constants";
+import Drag from "../../common/hocs/Drag";
+import { Ingredient, MAX_VALUE } from "../constants";
 
 export default {
   name: "SelectorItem",
+  components: {
+    Drag,
+  },
+  methods: {
+    isDraggable(id) {
+      return !(
+        this.selectedItems.ingredients.find((ing) => ing.id === id)?.value ===
+        MAX_VALUE
+      );
+    },
+  },
   data() {
     return {
       Ingredient,
@@ -19,6 +33,10 @@ export default {
       id: {
         type: Number,
       },
+      required: true,
+    },
+    selectedItems: {
+      type: Object,
       required: true,
     },
   },

@@ -26,6 +26,7 @@
           <BuilderPizzaView
             :items="items"
             :selected-items="selectedItems"
+            @change-selected-item="changeSelectedItem"
             v-model="pizzaName"
           />
         </div>
