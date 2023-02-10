@@ -10,16 +10,11 @@
           <RadioButton
             class="radio ingredients__input"
             name="sauce"
-            v-for="sauce in items.sauce"
+            v-for="sauce in sourceSauces"
             :key="sauce.id"
             :value="sauce.id"
-            :checked="selectedItems.sauce.id === sauce.id"
-            @change="
-              $emit('change-selected-item', {
-                name: 'sauce',
-                id: $event.target.value,
-              })
-            "
+            :checked="pizzaSauceId === sauce.id"
+            @change="$emit('change-pizza-sauce', $event.target.value)"
           >
             <span>{{ sauce.name }}</span>
           </RadioButton>
@@ -31,18 +26,20 @@
           <ul class="ingredients__list">
             <li
               class="ingredients__item"
-              v-for="ingredient in items.ingredients"
+              v-for="ingredient in sourceIngredients"
               :key="ingredient.id"
             >
               <SelectorItem
-                :item="ingredient"
-                :selected-items="selectedItems"
+                :ingredient="ingredient"
+                :pizza-ingredients="pizzaIngredients"
               />
 
               <ItemCounter
-                :item="ingredient"
-                :selected-items="selectedItems"
-                @change-counter-value="changeCounterValue"
+                :ingredient="ingredient"
+                :pizza-ingredients="pizzaIngredients"
+                @change-pizza-ingredients="
+                  $emit('change-pizza-ingredients', $event)
+                "
               />
             </li>
           </ul>
@@ -65,32 +62,26 @@ export default {
     RadioButton,
     SelectorItem,
   },
-  data() {
-    return {
-      Ingredient,
-    };
-  },
-  methods: {
-    changeCounterValue({ id, value }) {
-      this.$emit("change-selected-item", {
-        name: "ingredients",
-        id,
-        value,
-      });
+  computed: {
+    Ingredient() {
+      return Ingredient;
     },
   },
   props: {
-    items: {
-      sauces: {
-        type: Array,
-      },
-      ingredients: {
-        type: Array,
-      },
+    sourceSauces: {
+      type: Array,
       required: true,
     },
-    selectedItems: {
-      type: Object,
+    sourceIngredients: {
+      type: Array,
+      required: true,
+    },
+    pizzaSauceId: {
+      type: Number,
+      required: true,
+    },
+    pizzaIngredients: {
+      type: Array,
       required: true,
     },
   },

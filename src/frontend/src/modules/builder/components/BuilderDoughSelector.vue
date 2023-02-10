@@ -7,17 +7,12 @@
         <RadioButton
           class="dough__input"
           name="dough"
-          v-for="dough in items.dough"
+          v-for="dough in sourceDough"
           :key="dough.id"
           :class="`dough__input--${Dough[dough.id]}`"
           :value="dough.id"
-          :checked="selectedItems.dough.id === dough.id"
-          @change="
-            $emit('change-selected-item', {
-              name: 'dough',
-              id: $event.target.value,
-            })
-          "
+          :checked="pizzaDoughId === dough.id"
+          @change="$emit('change-pizza-dough', $event.target.value)"
         >
           <b>{{ dough.name }}</b>
           <span>{{ dough.description }}</span>
@@ -36,20 +31,18 @@ export default {
   components: {
     RadioButton,
   },
-  data() {
-    return {
-      Dough,
-    };
+  computed: {
+    Dough() {
+      return Dough;
+    },
   },
   props: {
-    items: {
-      dough: {
-        type: Array,
-      },
+    sourceDough: {
+      type: Array,
       required: true,
     },
-    selectedItems: {
-      type: Object,
+    pizzaDoughId: {
+      type: Number,
       required: true,
     },
   },

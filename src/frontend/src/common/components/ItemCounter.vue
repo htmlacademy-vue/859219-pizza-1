@@ -3,13 +3,8 @@
     <button
       class="counter__button counter__button--minus"
       type="button"
-      :disabled="isMinusDisabled"
-      @click="
-        $emit('change-counter-value', {
-          id: item.id,
-          value: -1,
-        })
-      "
+      :disabled="isDecrementDisabled"
+      @click="decrementCounterValue"
     >
       <span class="visually-hidden">Меньше</span>
     </button>
@@ -23,13 +18,8 @@
     <button
       class="counter__button counter__button--plus"
       type="button"
-      :disabled="isPlusDisabled"
-      @click="
-        $emit('change-counter-value', {
-          id: item.id,
-          value: 1,
-        })
-      "
+      :disabled="isIncrementDisabled"
+      @click="incrementCounterValue"
     >
       <span class="visually-hidden">Больше</span>
     </button>
@@ -42,33 +32,42 @@ import { MAX_VALUE, MIN_VALUE } from "../constants";
 export default {
   name: "ItemCounter",
   computed: {
-    isMinusDisabled() {
-      return !this.selectedItems.ingredients.some(
-        (item) => item.id === this.item.id
-      );
-    },
-    isPlusDisabled() {
-      return (
-        this.selectedItems.ingredients.find((item) => item.id === this.item.id)
-          ?.value === MAX_VALUE
+    pizzaIngredient() {
+      return this.pizzaIngredients.find(
+        (item) => item.id === this.ingredient.id
       );
     },
     counterValue() {
-      return (
-        this.selectedItems.ingredients.find((item) => item.id === this.item.id)
-          ?.value ?? MIN_VALUE
-      );
+      return this.pizzaIngredient?.value ?? this.minValue;
+    },
+    isDecrementDisabled() {
+      return !this.pizzaIngredient;
+    },
+    isIncrementDisabled() {
+      return this.pizzaIngredient?.value === this.maxValue;
+    },
+  },
+  methods: {
+    decrementCounterValue() {
+      this.$emit("change-pizza-ingredients", {
+        id: this.ingredient.id,
+        value: -1,
+      });
+    },
+    incrementCounterValue() {
+      this.$emit("change-pizza-ingredients", {
+        id: this.ingredient.id,
+        value: 1,
+      });
     },
   },
   props: {
-    item: {
-      id: {
-        type: Number,
-      },
+    ingredient: {
+      type: Object,
       required: true,
     },
-    selectedItems: {
-      type: Object,
+    pizzaIngredients: {
+      type: Array,
       required: true,
     },
     minValue: {

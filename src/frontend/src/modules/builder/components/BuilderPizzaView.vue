@@ -1,58 +1,47 @@
 <template>
-  <Drop @drop="changeCounterValue">
-    <div class="content__pizza">
-      <label class="input">
-        <span class="visually-hidden">Название пиццы</span>
-        <input
-          type="text"
-          name="pizza_name"
-          placeholder="Введите название пиццы"
-          :value="value"
-          @input="$emit('input', $event.target.value)"
-        />
-      </label>
+  <div class="content__pizza">
+    <BuilderPizzaName @change-pizza-name="$emit('change-pizza-name', $event)" />
 
-      <div class="content__constructor">
-        <div class="pizza" :class="pizzaFoundationClass">
-          <div class="pizza__wrapper">
-            <div
-              class="pizza__filling"
-              v-for="ingredient in selectedItems.ingredients"
-              :key="ingredient.id"
-              :class="pizzaFillingClass(ingredient)"
-            />
-          </div>
-        </div>
-      </div>
-
-      <div class="content__result">
-        <BuilderPriceCounter :items="items" :selected-items="selectedItems" />
-        <button
-          type="button"
-          class="button"
-          :disabled="!value.length || !selectedItems.ingredients.length"
-        >
-          Готовьте!
-        </button>
-      </div>
+    <div class="content__constructor">
+      <BuilderPizzaFoundation
+        :pizza-dough-id="pizzaItems.dough.id"
+        :pizza-sauce-id="pizzaItems.sauce.id"
+        :pizza-ingredients="pizzaItems.ingredients"
+        @change-pizza-ingredients="$emit('change-pizza-ingredients', $event)"
+      />
     </div>
-  </Drop>
+
+    <div class="content__result">
+      <BuilderPriceCounter :pizza-price="pizzaPrice" />
+      <BuilderSubmitButton
+        :pizza-ingredients="pizzaItems.ingredients"
+        :pizza-name="pizzaName"
+      />
+    </div>
+  </div>
 </template>
 
 <script>
 import { Ingredient, Sauce } from "../../../common/constants";
-import Drop from "../../../common/hocs/Drop";
+import BuilderPizzaFoundation from "./BuilderPizzaFoundation";
+import BuilderPizzaName from "./BuilderPizzaName";
 import BuilderPriceCounter from "./BuilderPriceCounter";
+import BuilderSubmitButton from "./BuilderSubmitButton";
 
 export default {
   name: "BuilderPizzaView",
-  components: { Drop, BuilderPriceCounter },
+  components: {
+    BuilderPizzaFoundation,
+    BuilderPizzaName,
+    BuilderPriceCounter,
+    BuilderSubmitButton,
+  },
   computed: {
     pizzaFoundationClass() {
-      const selectedDough = this.selectedItems.dough.id === 1 ? "small" : "big";
-      const selectedSauce = Sauce[this.selectedItems.sauce.id];
+      const pizzaDough = this.pizzaItems.dough.id === 1 ? "small" : "big";
+      const pizzaSauce = Sauce[this.pizzaItems.sauce.id];
 
-      return `pizza--foundation--${selectedDough}-${selectedSauce}`;
+      return `pizza--foundation--${pizzaDough}-${pizzaSauce}`;
     },
   },
   methods: {
@@ -65,25 +54,22 @@ export default {
         },
       ];
     },
-    changeCounterValue({ id }) {
-      this.$emit("change-selected-item", {
-        name: "ingredients",
-        id,
-        value: 1,
-      });
-    },
   },
   props: {
-    items: {
+    sourceItems: {
       type: Object,
       required: true,
     },
-    selectedItems: {
+    pizzaItems: {
       type: Object,
       required: true,
     },
-    value: {
+    pizzaName: {
       type: String,
+      required: true,
+    },
+    pizzaPrice: {
+      type: Number,
       required: true,
     },
   },

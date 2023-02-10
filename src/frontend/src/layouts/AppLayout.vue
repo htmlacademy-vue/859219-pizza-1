@@ -27,8 +27,8 @@ export default {
   name: "AppLayout",
   props: {
     totalPrice: {
-      required: true,
       type: Number,
+      required: true,
     },
   },
 };

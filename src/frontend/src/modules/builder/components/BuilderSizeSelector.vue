@@ -7,17 +7,12 @@
         <RadioButton
           class="diameter__input"
           name="diameter"
-          v-for="size in items.size"
+          v-for="size in sourceSizes"
           :key="size.id"
           :class="`diameter__input--${Size[size.id]}`"
           :value="size.id"
-          :checked="selectedItems.size.id === size.id"
-          @change="
-            $emit('change-selected-item', {
-              name: 'size',
-              id: $event.target.value,
-            })
-          "
+          :checked="pizzaSizeId === size.id"
+          @change="$emit('change-pizza-size', $event.target.value)"
         >
           <span>{{ size.name }}</span>
         </RadioButton>
@@ -35,20 +30,18 @@ export default {
   components: {
     RadioButton,
   },
-  data() {
-    return {
-      Size,
-    };
+  computed: {
+    Size() {
+      return Size;
+    },
   },
   props: {
-    items: {
-      sizes: {
-        type: Array,
-      },
+    sourceSizes: {
+      type: Array,
       required: true,
     },
-    selectedItems: {
-      type: Object,
+    pizzaSizeId: {
+      type: Number,
       required: true,
     },
   },
