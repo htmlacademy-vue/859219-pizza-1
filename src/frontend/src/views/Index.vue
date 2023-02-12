@@ -27,7 +27,6 @@
           />
 
           <BuilderPizzaView
-            :source-items="sourceItems"
             :pizza-items="pizzaItems"
             :pizza-name="pizzaName"
             :pizza-price="pizzaPrice"

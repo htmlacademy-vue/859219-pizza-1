@@ -1,5 +1,5 @@
 <template>
-  <Drag :transfer-data="ingredient" :draggable="isDraggable(ingredient.id)">
+  <Drag :transfer-data="ingredient" :draggable="isDraggable">
     <span class="filling" :class="`filling--${Ingredient[ingredient.id]}`">
       {{ ingredient.name }}
     </span>
@@ -15,17 +15,15 @@ export default {
   components: {
     Drag,
   },
-  methods: {
-    isDraggable(id) {
-      return !(
-        this.pizzaIngredients.find((item) => item.id === id)?.value ===
-        this.maxValue
-      );
-    },
-  },
   computed: {
     Ingredient() {
       return Ingredient;
+    },
+    isDraggable() {
+      return !(
+        this.pizzaIngredients.find((item) => item.id === this.ingredient.id)
+          ?.value === this.maxValue
+      );
     },
   },
   props: {
@@ -44,5 +42,3 @@ export default {
   },
 };
 </script>
-
-<style scoped></style>

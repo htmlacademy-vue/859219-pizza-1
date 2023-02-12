@@ -56,10 +56,6 @@ export default {
     },
   },
   props: {
-    sourceItems: {
-      type: Object,
-      required: true,
-    },
     pizzaItems: {
       type: Object,
       required: true,
@@ -75,5 +71,3 @@ export default {
   },
 };
 </script>
-
-<style scoped></style>

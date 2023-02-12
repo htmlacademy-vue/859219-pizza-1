@@ -15,5 +15,3 @@ export default {
   name: "BuilderPizzaName",
 };
 </script>
-
-<style scoped></style>

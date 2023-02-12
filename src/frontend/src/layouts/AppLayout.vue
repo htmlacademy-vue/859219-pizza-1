@@ -28,12 +28,8 @@ export default {
   props: {
     totalPrice: {
       type: Number,
-      required: true,
+      default: 0,
     },
   },
 };
 </script>
-
-<style scoped>
-@import "../assets/scss/layout/header.scss";
-</style>
