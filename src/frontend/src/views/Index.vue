@@ -1,47 +1,43 @@
 <template>
-  <AppLayout :total-price="pizzaPrice">
-    <main class="content">
-      <form>
-        <div class="content__wrapper">
-          <h1 class="title title--big">Конструктор пиццы</h1>
+  <main class="content">
+    <form>
+      <div class="content__wrapper">
+        <h1 class="title title--big">Конструктор пиццы</h1>
 
-          <BuilderDoughSelector
-            :source-dough="sourceItems.dough"
-            :pizza-dough-id="pizzaItems.dough.id"
-            @change-pizza-dough="changePizzaDough"
-          />
+        <BuilderDoughSelector
+          :source-dough="sourceItems.dough"
+          :pizza-dough-id="pizzaItems.dough.id"
+          @change-pizza-dough="changePizzaDough"
+        />
 
-          <BuilderSizeSelector
-            :source-sizes="sourceItems.sizes"
-            :pizza-size-id="pizzaItems.size.id"
-            @change-pizza-size="changePizzaSize"
-          />
+        <BuilderSizeSelector
+          :source-sizes="sourceItems.sizes"
+          :pizza-size-id="pizzaItems.size.id"
+          @change-pizza-size="changePizzaSize"
+        />
 
-          <BuilderIngredientsSelector
-            :source-sauces="sourceItems.sauces"
-            :source-ingredients="sourceItems.ingredients"
-            :pizza-sauce-id="pizzaItems.sauce.id"
-            :pizza-ingredients="pizzaItems.ingredients"
-            @change-pizza-sauce="changePizzaSauce"
-            @change-pizza-ingredients="changePizzaIngredients"
-          />
+        <BuilderIngredientsSelector
+          :source-sauces="sourceItems.sauces"
+          :source-ingredients="sourceItems.ingredients"
+          :pizza-sauce-id="pizzaItems.sauce.id"
+          :pizza-ingredients="pizzaItems.ingredients"
+          @change-pizza-sauce="changePizzaSauce"
+          @change-pizza-ingredients="changePizzaIngredients"
+        />
 
-          <BuilderPizzaView
-            :source-items="sourceItems"
-            :pizza-items="pizzaItems"
-            :pizza-name="pizzaName"
-            :pizza-price="pizzaPrice"
-            @change-pizza-name="changePizzaName"
-            @change-pizza-ingredients="changePizzaIngredients"
-          />
-        </div>
-      </form>
-    </main>
-  </AppLayout>
+        <BuilderPizzaView
+          :pizza-items="pizzaItems"
+          :pizza-name="pizzaName"
+          :pizza-price="pizzaPrice"
+          @change-pizza-name="changePizzaName"
+          @change-pizza-ingredients="changePizzaIngredients"
+        />
+      </div>
+    </form>
+  </main>
 </template>
 
 <script>
-import AppLayout from "../layouts/AppLayout";
 import BuilderDoughSelector from "../modules/builder/components/BuilderDoughSelector";
 import BuilderIngredientsSelector from "../modules/builder/components/BuilderIngredientsSelector";
 import BuilderPizzaView from "../modules/builder/components/BuilderPizzaView";
@@ -51,7 +47,6 @@ import pizza from "../static/pizza.json";
 export default {
   name: "Index",
   components: {
-    AppLayout,
     BuilderDoughSelector,
     BuilderIngredientsSelector,
     BuilderPizzaView,
