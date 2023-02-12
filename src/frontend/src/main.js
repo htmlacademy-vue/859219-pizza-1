@@ -1,5 +1,6 @@
 import Vue from "vue";
 
+import "./plugins/ui";
 import router from "./router";
 import App from "./App";
 
