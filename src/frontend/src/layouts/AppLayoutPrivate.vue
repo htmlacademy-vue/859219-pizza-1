@@ -1,9 +1,10 @@
 <template>
   <div id="app">
     <AppLayoutHeader />
-    <AppLayoutSidebar>
+    <main class="layout">
+      <AppLayoutSidebar />
       <slot />
-    </AppLayoutSidebar>
+    </main>
   </div>
 </template>
 
