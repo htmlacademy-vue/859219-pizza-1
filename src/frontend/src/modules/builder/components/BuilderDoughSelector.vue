@@ -7,12 +7,12 @@
         <RadioButton
           class="dough__input"
           name="dough"
-          v-for="dough in sourceDough"
+          v-for="dough in source.dough"
           :key="dough.id"
           :class="`dough__input--${Dough[dough.id]}`"
           :value="dough.id"
-          :checked="pizzaDoughId === dough.id"
-          @change="$emit('change-pizza-dough', $event.target.value)"
+          :checked="pizza.dough.id === dough.id"
+          @change="changePizzaDough($event.target.value)"
         >
           <b>{{ dough.name }}</b>
           <span>{{ dough.description }}</span>
@@ -23,6 +23,8 @@
 </template>
 
 <script>
+import { mapMutations, mapState } from "vuex";
+
 import RadioButton from "./../../../common/components/RadioButton";
 import { Dough } from "../../../common/constants";
 
@@ -32,19 +34,13 @@ export default {
     RadioButton,
   },
   computed: {
+    ...mapState("Builder", ["source", "pizza"]),
     Dough() {
       return Dough;
     },
   },
-  props: {
-    sourceDough: {
-      type: Array,
-      required: true,
-    },
-    pizzaDoughId: {
-      type: Number,
-      required: true,
-    },
+  methods: {
+    ...mapMutations("Builder", ["changePizzaDough"]),
   },
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="counter ingredients__counter">
+  <div class="counter">
     <button
       class="counter__button counter__button--minus"
       type="button"
@@ -27,56 +27,52 @@
 </template>
 
 <script>
-import { MAX_VALUE, MIN_VALUE } from "../constants";
-
 export default {
   name: "ItemCounter",
   computed: {
-    pizzaIngredient() {
-      return this.pizzaIngredients.find(
-        (item) => item.id === this.ingredient.id
-      );
+    currentItem() {
+      return this.items.find((item) => item.id === this.item.id);
     },
     counterValue() {
-      return this.pizzaIngredient?.value ?? this.minValue;
+      return this.currentItem?.value ?? this.minValue;
     },
     isDecrementDisabled() {
-      return !this.pizzaIngredient;
+      return !this.currentItem;
     },
     isIncrementDisabled() {
-      return this.pizzaIngredient?.value === this.maxValue;
+      return this.currentItem?.value === this.maxValue;
     },
   },
   methods: {
     decrementCounterValue() {
-      this.$emit("change-pizza-ingredients", {
-        id: this.ingredient.id,
+      this.$emit("change-counter-value", {
+        id: this.item.id,
         value: -1,
       });
     },
     incrementCounterValue() {
-      this.$emit("change-pizza-ingredients", {
-        id: this.ingredient.id,
+      this.$emit("change-counter-value", {
+        id: this.item.id,
         value: 1,
       });
     },
   },
   props: {
-    ingredient: {
+    item: {
       type: Object,
       required: true,
     },
-    pizzaIngredients: {
+    items: {
       type: Array,
       required: true,
     },
     minValue: {
       type: Number,
-      default: MIN_VALUE,
+      default: 0,
     },
     maxValue: {
       type: Number,
-      default: MAX_VALUE,
+      default: Infinity,
     },
   },
 };

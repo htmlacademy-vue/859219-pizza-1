@@ -5,6 +5,20 @@
   align-items: center;
 }
 
+.counter--orange {
+  .counter__button--plus {
+    background-color: $orange-200;
+
+    &:hover:not(:active):not(:disabled) {
+      background-color: $orange-100;
+    }
+
+    &:active:not(:disabled) {
+      background-color: $orange-300;
+    }
+  }
+}
+
 .counter__button {
   $el: &;
   $size_icon: 50%;
@@ -105,18 +119,6 @@
       cursor: default;
 
       opacity: 0.3;
-    }
-  }
-
-  &--orange {
-    background-color: $orange-200;
-
-    &:hover:not(:active):not(:disabled) {
-      background-color: $orange-100;
-    }
-
-    &:active:not(:disabled) {
-      background-color: $orange-300;
     }
   }
 }

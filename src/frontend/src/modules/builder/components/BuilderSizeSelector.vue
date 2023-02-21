@@ -7,12 +7,12 @@
         <RadioButton
           class="diameter__input"
           name="diameter"
-          v-for="size in sourceSizes"
+          v-for="size in source.sizes"
           :key="size.id"
           :class="`diameter__input--${Size[size.id]}`"
           :value="size.id"
-          :checked="pizzaSizeId === size.id"
-          @change="$emit('change-pizza-size', $event.target.value)"
+          :checked="pizza.size.id === size.id"
+          @change="changePizzaSize($event.target.value)"
         >
           <span>{{ size.name }}</span>
         </RadioButton>
@@ -22,6 +22,8 @@
 </template>
 
 <script>
+import { mapMutations, mapState } from "vuex";
+
 import RadioButton from "../../../common/components/RadioButton";
 import { Size } from "../../../common/constants";
 
@@ -31,19 +33,13 @@ export default {
     RadioButton,
   },
   computed: {
+    ...mapState("Builder", ["source", "pizza"]),
     Size() {
       return Size;
     },
   },
-  props: {
-    sourceSizes: {
-      type: Array,
-      required: true,
-    },
-    pizzaSizeId: {
-      type: Number,
-      required: true,
-    },
+  methods: {
+    ...mapMutations("Builder", ["changePizzaSize"]),
   },
 };
 </script>
