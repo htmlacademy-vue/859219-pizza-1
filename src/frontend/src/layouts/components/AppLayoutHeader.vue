@@ -11,27 +11,12 @@
       </router-link>
     </div>
     <div class="header__cart">
-      <router-link to="/cart">0 ₽</router-link>
+      <router-link to="/cart">{{ totalCost }} ₽</router-link>
     </div>
     <div v-if="isAuthorized" class="header__user">
       <router-link to="/profile">
-        <picture>
-          <source
-            type="image/webp"
-            srcset="
-              ../../assets/img/users/user5.webp    1x,
-              ../../assets/img/users/user5@2x.webp 2x
-            "
-          />
-          <img
-            src="../../assets/img/users/user5.jpg"
-            srcset="../../assets/img/users/user5@2x.jpg"
-            alt="Василий Ложкин"
-            width="32"
-            height="32"
-          />
-        </picture>
-        <span>Василий Ложкин</span>
+        <img width="32" height="32" :src="user.avatar" :alt="user.name" />
+        <span>{{ user.name }}</span>
       </router-link>
       <router-link to="/login" class="header__logout">
         <span>Выйти</span>
@@ -46,12 +31,14 @@
 </template>
 
 <script>
+import { mapGetters, mapState } from "vuex";
+
 export default {
   name: "AppLayoutHeader",
   computed: {
-    isAuthorized() {
-      return true;
-    },
+    ...mapState("Auth", ["user"]),
+    ...mapGetters("Auth", ["isAuthorized"]),
+    ...mapGetters("Cart", ["totalCost"]),
   },
 };
 </script>
