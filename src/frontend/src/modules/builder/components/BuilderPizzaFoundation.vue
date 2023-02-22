@@ -4,7 +4,7 @@
       <div class="pizza__wrapper">
         <div
           class="pizza__filling"
-          v-for="ingredient in pizzaIngredients"
+          v-for="ingredient in pizza.ingredients"
           :key="ingredient.id"
           :class="pizzaFillingClass(ingredient)"
         />
@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import { mapMutations, mapState } from "vuex";
+
 import { Ingredient, Sauce } from "../../../common/constants";
 import Drop from "../../../common/hocs/Drop";
 
@@ -21,6 +23,7 @@ export default {
   name: "BuilderPizzaFoundation",
   components: { Drop },
   computed: {
+    ...mapState("Builder", ["pizza"]),
     Ingredient() {
       return Ingredient;
     },
@@ -28,15 +31,16 @@ export default {
       return Sauce;
     },
     pizzaFoundationClass() {
-      const pizzaDough = this.pizzaDoughId === 1 ? "small" : "big";
-      const pizzaSauce = Sauce[this.pizzaSauceId];
+      const pizzaDough = this.pizza.dough.id === 1 ? "small" : "big";
+      const pizzaSauce = Sauce[this.pizza.sauce.id];
 
       return `pizza--foundation--${pizzaDough}-${pizzaSauce}`;
     },
   },
   methods: {
+    ...mapMutations("Builder", ["changePizzaIngredients"]),
     incrementCounterValue({ id }) {
-      this.$emit("change-pizza-ingredients", {
+      this.changePizzaIngredients({
         id,
         value: 1,
       });
@@ -49,20 +53,6 @@ export default {
           "pizza__filling--third": value === 3,
         },
       ];
-    },
-  },
-  props: {
-    pizzaDoughId: {
-      type: Number,
-      required: true,
-    },
-    pizzaSauceId: {
-      type: Number,
-      required: true,
-    },
-    pizzaIngredients: {
-      type: Array,
-      required: true,
     },
   },
 };

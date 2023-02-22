@@ -10,11 +10,11 @@
           <RadioButton
             class="radio ingredients__input"
             name="sauce"
-            v-for="sauce in sourceSauces"
+            v-for="sauce in source.sauces"
             :key="sauce.id"
             :value="sauce.id"
-            :checked="pizzaSauceId === sauce.id"
-            @change="$emit('change-pizza-sauce', $event.target.value)"
+            :checked="pizza.sauce.id === sauce.id"
+            @change="changePizzaSauce($event.target.value)"
           >
             <span>{{ sauce.name }}</span>
           </RadioButton>
@@ -26,20 +26,17 @@
           <ul class="ingredients__list">
             <li
               class="ingredients__item"
-              v-for="ingredient in sourceIngredients"
+              v-for="ingredient in source.ingredients"
               :key="ingredient.id"
             >
-              <SelectorItem
-                :ingredient="ingredient"
-                :pizza-ingredients="pizzaIngredients"
-              />
+              <SelectorItem :ingredient="ingredient" />
 
               <ItemCounter
-                :ingredient="ingredient"
-                :pizza-ingredients="pizzaIngredients"
-                @change-pizza-ingredients="
-                  $emit('change-pizza-ingredients', $event)
-                "
+                class="ingredients__counter"
+                :item="ingredient"
+                :items="pizza.ingredients"
+                :max-value="MAX_VALUE"
+                @change-counter-value="changePizzaIngredients"
               />
             </li>
           </ul>
@@ -50,10 +47,12 @@
 </template>
 
 <script>
+import { mapMutations, mapState } from "vuex";
+
 import ItemCounter from "../../../common/components/ItemCounter";
 import RadioButton from "../../../common/components/RadioButton";
 import SelectorItem from "../../../common/components/SelectorItem";
-import { Ingredient } from "../../../common/constants";
+import { Ingredient, MAX_VALUE } from "../../../common/constants";
 
 export default {
   name: "BuilderIngredientsSelector",
@@ -63,27 +62,17 @@ export default {
     SelectorItem,
   },
   computed: {
+    ...mapState("Builder", ["source", "pizza"]),
     Ingredient() {
       return Ingredient;
     },
-  },
-  props: {
-    sourceSauces: {
-      type: Array,
-      required: true,
-    },
-    sourceIngredients: {
-      type: Array,
-      required: true,
-    },
-    pizzaSauceId: {
-      type: Number,
-      required: true,
-    },
-    pizzaIngredients: {
-      type: Array,
-      required: true,
+    MAX_VALUE() {
+      return MAX_VALUE;
     },
   },
+  methods: mapMutations("Builder", [
+    "changePizzaSauce",
+    "changePizzaIngredients",
+  ]),
 };
 </script>
