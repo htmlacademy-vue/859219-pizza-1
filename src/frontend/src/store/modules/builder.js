@@ -1,3 +1,5 @@
+import Vue from "vue";
+
 import pizza from "../../static/pizza.json";
 
 export default {
@@ -18,9 +20,14 @@ export default {
     },
   },
   getters: {
+    normalizedSourceSizes(state) {
+      return state.source.sizes.sort((item1, item2) =>
+        item2.multiplier < item1.multiplier ? 1 : -1
+      );
+    },
     pizzaCost(state) {
       const ingredientsCost = state.pizza.ingredients.reduce((sum, item) => {
-        return sum + (item?.value ?? 1) * item.price;
+        return sum + (item?.count ?? 1) * item.price;
       }, 0);
 
       return (
@@ -39,37 +46,31 @@ export default {
       state.pizza.sauce = payload.sauces[0];
     },
     setCartPizza(state, payload) {
-      state.pizza.id = payload.id;
+      Vue.set(state.pizza, "id", payload.id);
       state.pizza.dough = payload.dough;
       state.pizza.size = payload.size;
       state.pizza.sauce = payload.sauce;
       state.pizza.ingredients = payload.ingredients;
       state.pizza.name = payload.name;
-      state.pizza.value = payload.value;
+      Vue.set(state.pizza, "count", payload.count);
     },
     resetPizza(state) {
-      delete state.pizza.id;
+      Vue.delete(state.pizza, "id");
       state.pizza.dough = state.source.dough[0];
       state.pizza.size = state.source.sizes[0];
       state.pizza.sauce = state.source.sauces[0];
       state.pizza.ingredients = [];
       state.pizza.name = "";
-      delete state.pizza.value;
+      Vue.delete(state.pizza, "count");
     },
     changePizzaDough(state, id) {
-      state.pizza.dough = {
-        ...state.source.dough.find((item) => item.id === +id),
-      };
+      state.pizza.dough = state.source.dough.find((item) => item.id === +id);
     },
     changePizzaSize(state, id) {
-      state.pizza.size = {
-        ...state.source.sizes.find((item) => item.id === +id),
-      };
+      state.pizza.size = state.source.sizes.find((item) => item.id === +id);
     },
     changePizzaSauce(state, id) {
-      state.pizza.sauce = {
-        ...state.source.sauces.find((item) => item.id === +id),
-      };
+      state.pizza.sauce = state.source.sauces.find((item) => item.id === +id);
     },
     changePizzaIngredients(state, { id, value }) {
       const itemIndex = state.pizza.ingredients.findIndex(
@@ -78,17 +79,17 @@ export default {
 
       if (~itemIndex) {
         const item = state.pizza.ingredients[itemIndex];
-        const itemValue = item.value + value;
+        const itemCount = item.count + value;
 
-        if (itemValue) {
-          item.value = itemValue;
+        if (itemCount) {
+          item.count = itemCount;
         } else {
           state.pizza.ingredients.splice(itemIndex, 1);
         }
       } else {
         state.pizza.ingredients.push({
-          ...(state.source.ingredients.find((item) => item.id === id) || []),
-          value,
+          ...state.source.ingredients.find((item) => item.id === id),
+          count: value,
         });
       }
     },

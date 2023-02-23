@@ -1,6 +1,6 @@
 <template>
   <Drag :transfer-data="ingredient" :draggable="isDraggable">
-    <span class="filling" :class="`filling--${Ingredient[ingredient.id]}`">
+    <span class="filling" :class="ingredientClass">
       {{ ingredient.name }}
     </span>
   </Drag>
@@ -11,7 +11,8 @@ import { mapState } from "vuex";
 
 import Drag from "../../common/hocs/Drag";
 
-import { Ingredient, MAX_VALUE } from "../constants";
+import { MAX_INGREDIENT_COUNT } from "../constants";
+import Ingredient from "../enums/ingredient";
 
 export default {
   name: "SelectorItem",
@@ -20,14 +21,22 @@ export default {
   },
   computed: {
     ...mapState("Builder", ["pizza"]),
-    Ingredient() {
-      return Ingredient;
-    },
     isDraggable() {
       return !(
         this.pizza.ingredients.find((item) => item.id === this.ingredient.id)
-          ?.value === this.maxValue
+          ?.count === this.maxValue
       );
+    },
+    ingredientClass() {
+      let value = "";
+
+      for (const key in Ingredient) {
+        if (Ingredient[key] === this.ingredient.name) {
+          value = key;
+        }
+      }
+
+      return `filling--${value}`;
     },
   },
   props: {
@@ -37,7 +46,7 @@ export default {
     },
     maxValue: {
       type: Number,
-      default: MAX_VALUE,
+      default: MAX_INGREDIENT_COUNT,
     },
   },
 };

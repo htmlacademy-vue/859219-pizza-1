@@ -10,8 +10,8 @@
           <img
             width="39"
             height="60"
-            alt="Coca-Cola 0,5 литра"
             :src="addition.image"
+            :alt="addition.name"
           />
           <span>{{ addition.name }}</span>
         </p>

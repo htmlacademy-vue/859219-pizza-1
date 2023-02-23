@@ -16,7 +16,7 @@
 <script>
 import { mapMutations, mapState } from "vuex";
 
-import { Ingredient, Sauce } from "../../../common/constants";
+import Ingredient from "../../../common/enums/ingredient";
 import Drop from "../../../common/hocs/Drop";
 
 export default {
@@ -24,15 +24,10 @@ export default {
   components: { Drop },
   computed: {
     ...mapState("Builder", ["pizza"]),
-    Ingredient() {
-      return Ingredient;
-    },
-    Sauce() {
-      return Sauce;
-    },
     pizzaFoundationClass() {
-      const pizzaDough = this.pizza.dough.id === 1 ? "small" : "big";
-      const pizzaSauce = Sauce[this.pizza.sauce.id];
+      const pizzaDough = this.pizza.dough.name === "Тонкое" ? "small" : "big";
+      const pizzaSauce =
+        this.pizza.sauce.name === "Томатный" ? "tomato" : "creamy";
 
       return `pizza--foundation--${pizzaDough}-${pizzaSauce}`;
     },
@@ -45,12 +40,20 @@ export default {
         value: 1,
       });
     },
-    pizzaFillingClass({ id, value }) {
+    pizzaFillingClass({ name, count }) {
+      let value = "";
+
+      for (const key in Ingredient) {
+        if (Ingredient[key] === name) {
+          value = key;
+        }
+      }
+
       return [
-        `pizza__filling--${Ingredient[id]}`,
+        `pizza__filling--${value}`,
         {
-          "pizza__filling--second": value === 2,
-          "pizza__filling--third": value === 3,
+          "pizza__filling--second": count === 2,
+          "pizza__filling--third": count === 3,
         },
       ];
     },

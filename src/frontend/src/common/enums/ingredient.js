@@ -1,0 +1,17 @@
+export default {
+  mushrooms: "Грибы",
+  cheddar: "Чеддер",
+  salami: "Салями",
+  ham: "Ветчина",
+  ananas: "Ананас",
+  bacon: "Бекон",
+  onion: "Лук",
+  chile: "Чили",
+  jalapeno: "Халапеньо",
+  olives: "Маслины",
+  tomatoes: "Томаты",
+  salmon: "Лосось",
+  mozzarella: "Моцарелла",
+  parmesan: "Пармезан",
+  blue_cheese: "Блю чиз",
+};

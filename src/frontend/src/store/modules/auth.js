@@ -9,7 +9,7 @@ export default {
   },
   getters: {
     isAuthorized(state) {
-      return state.user;
+      return !!state.user;
     },
   },
   mutations: {

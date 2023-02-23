@@ -4,7 +4,7 @@
       <label class="cart-form__select">
         <span class="cart-form__label">Получение заказа:</span>
 
-        <select class="select" name="type" v-model="typeValue">
+        <select class="select" name="type" v-model="type">
           <option value="self-delivery">Заберу сам</option>
           <option value="new-address">Новый адрес</option>
           <option
@@ -12,7 +12,7 @@
             v-for="address in addresses"
             :key="address.id"
             :value="address.id"
-            :selected="address.id === typeValue"
+            :selected="address.id === type"
           >
             {{ address.name }}
           </option>
@@ -25,11 +25,11 @@
           type="text"
           name="tel"
           placeholder="+7 999-999-99-99"
-          v-model="telValue"
+          v-model="tel"
         />
       </label>
 
-      <div class="cart-form__address" v-if="typeValue !== 'self-delivery'">
+      <div class="cart-form__address" v-if="type !== 'self-delivery'">
         <span class="cart-form__label">Новый адрес:</span>
 
         <div class="cart-form__input">
@@ -38,7 +38,7 @@
             <input
               type="text"
               name="street"
-              v-model="streetValue"
+              v-model="street"
               :disabled="isDisabled"
             />
           </label>
@@ -50,7 +50,7 @@
             <input
               type="text"
               name="house"
-              v-model="houseValue"
+              v-model="house"
               :disabled="isDisabled"
             />
           </label>
@@ -62,7 +62,7 @@
             <input
               type="text"
               name="apartment"
-              v-model="apartmentValue"
+              v-model="apartment"
               :disabled="isDisabled"
             />
           </label>
@@ -81,7 +81,7 @@ export default {
     ...mapState("Cart", ["form"]),
     ...mapState("Auth", ["addresses"]),
     ...mapGetters("Auth", ["isAuthorized"]),
-    typeValue: {
+    type: {
       get() {
         return this.form.type;
       },
@@ -89,19 +89,19 @@ export default {
         this.setFormFieldValue({ name: "type", value });
 
         if (value === "new-address" || value === "self-delivery") {
-          this.setFormFieldValue({ name: "street", value: "" });
-          this.setFormFieldValue({ name: "house", value: "" });
-          this.setFormFieldValue({ name: "apartment", value: "" });
+          this.street = "";
+          this.house = "";
+          this.apartment = "";
         } else {
           const address = this.addresses.find((item) => item.id === value);
 
-          this.setFormFieldValue({ name: "street", value: address.street });
-          this.setFormFieldValue({ name: "house", value: address.building });
-          this.setFormFieldValue({ name: "apartment", value: address.flat });
+          this.street = address.street;
+          this.house = address.building;
+          this.apartment = address.flat;
         }
       },
     },
-    telValue: {
+    tel: {
       get() {
         return this.form.tel;
       },
@@ -109,7 +109,7 @@ export default {
         this.setFormFieldValue({ name: "tel", value });
       },
     },
-    streetValue: {
+    street: {
       get() {
         return this.form.street;
       },
@@ -117,7 +117,7 @@ export default {
         this.setFormFieldValue({ name: "street", value });
       },
     },
-    houseValue: {
+    house: {
       get() {
         return this.form.house;
       },
@@ -125,7 +125,7 @@ export default {
         this.setFormFieldValue({ name: "house", value });
       },
     },
-    apartmentValue: {
+    apartment: {
       get() {
         return this.form.apartment;
       },
@@ -134,7 +134,7 @@ export default {
       },
     },
     isDisabled() {
-      return this.typeValue !== "new-address";
+      return this.type !== "new-address";
     },
   },
   methods: mapMutations("Cart", ["setFormFieldValue"]),

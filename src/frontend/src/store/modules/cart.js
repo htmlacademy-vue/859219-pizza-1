@@ -21,11 +21,11 @@ export default {
   getters: {
     totalCost(state) {
       const productsCost = state.cart.products.reduce((sum, item) => {
-        return sum + (item?.value ?? 1) * item.price;
+        return sum + (item?.count ?? 1) * item.price;
       }, 0);
 
       const additionsCost = state.cart.additions.reduce((sum, item) => {
-        return sum + (item?.value ?? 1) * item.price;
+        return sum + (item?.count ?? 1) * item.price;
       }, 0);
 
       return productsCost + additionsCost;
@@ -53,10 +53,10 @@ export default {
     changeCartProducts(state, { id, value }) {
       const itemIndex = state.cart.products.findIndex((item) => item.id === id);
       const item = state.cart.products[itemIndex];
-      const itemValue = item.value + value;
+      const itemCount = item.count + value;
 
-      if (itemValue) {
-        item.value = itemValue;
+      if (itemCount) {
+        item.count = itemCount;
       } else {
         state.cart.products.splice(itemIndex, 1);
       }
@@ -68,17 +68,17 @@ export default {
 
       if (~itemIndex) {
         const item = state.cart.additions[itemIndex];
-        const itemValue = item.value + value;
+        const itemCount = item.count + value;
 
-        if (itemValue) {
-          item.value = itemValue;
+        if (itemCount) {
+          item.count = itemCount;
         } else {
           state.cart.additions.splice(itemIndex, 1);
         }
       } else {
         state.cart.additions.push({
-          ...(state.source.additions.find((item) => item.id === id) || []),
-          value,
+          ...state.source.additions.find((item) => item.id === id),
+          count: value,
         });
       }
     },

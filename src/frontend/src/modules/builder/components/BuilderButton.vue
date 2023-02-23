@@ -25,7 +25,7 @@ export default {
       this.setCartProduct({
         id: Math.floor(Math.random() * 100),
         price: this.pizzaCost,
-        value: 1,
+        count: 1,
         ...this.pizza,
       });
       this.resetPizza();

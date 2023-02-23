@@ -34,13 +34,13 @@ export default {
       return this.items.find((item) => item.id === this.item.id);
     },
     counterValue() {
-      return this.currentItem?.value ?? this.minValue;
+      return this.currentItem?.count ?? this.minValue;
     },
     isDecrementDisabled() {
       return !this.currentItem;
     },
     isIncrementDisabled() {
-      return this.currentItem?.value === this.maxValue;
+      return this.currentItem?.count === this.maxValue;
     },
   },
   methods: {

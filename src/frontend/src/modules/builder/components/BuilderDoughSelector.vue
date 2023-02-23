@@ -9,7 +9,9 @@
           name="dough"
           v-for="dough in source.dough"
           :key="dough.id"
-          :class="`dough__input--${Dough[dough.id]}`"
+          :class="`dough__input--${
+            dough.name === 'Тонкое' ? 'light' : 'large'
+          }`"
           :value="dough.id"
           :checked="pizza.dough.id === dough.id"
           @change="changePizzaDough($event.target.value)"
@@ -26,7 +28,6 @@
 import { mapMutations, mapState } from "vuex";
 
 import RadioButton from "./../../../common/components/RadioButton";
-import { Dough } from "../../../common/constants";
 
 export default {
   name: "BuilderDoughSelector",
@@ -35,12 +36,7 @@ export default {
   },
   computed: {
     ...mapState("Builder", ["source", "pizza"]),
-    Dough() {
-      return Dough;
-    },
   },
-  methods: {
-    ...mapMutations("Builder", ["changePizzaDough"]),
-  },
+  methods: mapMutations("Builder", ["changePizzaDough"]),
 };
 </script>

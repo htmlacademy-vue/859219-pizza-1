@@ -18,7 +18,7 @@
           <ul>
             <li>
               {{ product.size.name }}, на
-              {{ product.dough.id === 1 ? "тонком" : "толстом" }} тесте
+              {{ product.dough.name === "Тонкое" ? "тонком" : "толстом" }} тесте
             </li>
             <li>Соус: {{ product.sauce.name.toLowerCase() }}</li>
             <li>
@@ -41,7 +41,7 @@
       />
 
       <div class="cart-list__price">
-        <b>{{ product.price * product.value }} ₽</b>
+        <b>{{ product.price * product.count }} ₽</b>
       </div>
 
       <div class="cart-list__button">

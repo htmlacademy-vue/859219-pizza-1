@@ -52,7 +52,8 @@ import { mapMutations, mapState } from "vuex";
 import ItemCounter from "../../../common/components/ItemCounter";
 import RadioButton from "../../../common/components/RadioButton";
 import SelectorItem from "../../../common/components/SelectorItem";
-import { Ingredient, MAX_VALUE } from "../../../common/constants";
+import { MAX_INGREDIENT_COUNT } from "../../../common/constants";
+import Ingredient from "../../../common/enums/ingredient";
 
 export default {
   name: "BuilderIngredientsSelector",
@@ -67,7 +68,7 @@ export default {
       return Ingredient;
     },
     MAX_VALUE() {
-      return MAX_VALUE;
+      return MAX_INGREDIENT_COUNT;
     },
   },
   methods: mapMutations("Builder", [
