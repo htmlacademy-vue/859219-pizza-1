@@ -1,6 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
+import VuexPlugins from "../plugins/vuex";
+
 import Auth from "./modules/auth";
 import Builder from "./modules/builder";
 import Cart from "./modules/cart";
@@ -25,4 +27,5 @@ export default new Vuex.Store({
     Cart,
     Orders,
   },
+  plugins: [VuexPlugins],
 });
