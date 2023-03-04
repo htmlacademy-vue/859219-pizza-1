@@ -5,118 +5,43 @@
     </div>
 
     <div class="user">
-      <picture>
-        <source
-          type="image/webp"
-          srcset="
-            ../assets/img/users/user5@2x.webp 1x,
-            ../assets/img/users/user5@4x.webp 2x
-          "
-        />
-        <img
-          src="../assets/img/users/user5@2x.jpg"
-          srcset="../assets/img/users/user5@4x.jpg"
-          alt="Василий Ложкин"
-          width="72"
-          height="72"
-        />
-      </picture>
+      <img width="72" height="72" :src="user.avatar" :alt="user.name" />
       <div class="user__name">
-        <span>Василий Ложкин</span>
+        <span>{{ user.name }}</span>
       </div>
       <p class="user__phone">
-        Контактный телефон: <span>+7 999-999-99-99</span>
+        Контактный телефон: <span>{{ user.phone }}</span>
       </p>
     </div>
 
-    <div class="layout__address">
-      <div class="sheet address-form">
-        <div class="address-form__header">
-          <b>Адрес №1. Тест</b>
-          <div class="address-form__edit">
-            <button type="button" class="icon">
-              <span class="visually-hidden">Изменить адрес</span>
-            </button>
-          </div>
-        </div>
-        <p>Невский пр., д. 22, кв. 46</p>
-        <small>Позвоните, пожалуйста, от проходной</small>
-      </div>
+    <template v-if="addresses.length">
+      <ProfileAddress
+        v-for="address in addresses"
+        :key="address.id"
+        :address="address"
+        :is-editing="isEditing"
+        @toggle-view="toggleView(address)"
+      />
+    </template>
+
+    <div class="sheet cart__empty" v-else>
+      <p>Вы не добавили ни одного адреса</p>
     </div>
 
-    <div class="layout__address">
-      <form class="address-form address-form--opened sheet">
-        <div class="address-form__header">
-          <b>Адрес №1</b>
-        </div>
-
-        <div class="address-form__wrapper">
-          <div class="address-form__input">
-            <label class="input">
-              <span>Название адреса*</span>
-              <input
-                type="text"
-                name="addr-name"
-                placeholder="Введите название адреса"
-                required
-              />
-            </label>
-          </div>
-          <div class="address-form__input address-form__input--size--normal">
-            <label class="input">
-              <span>Улица*</span>
-              <input
-                type="text"
-                name="addr-street"
-                placeholder="Введите название улицы"
-                required
-              />
-            </label>
-          </div>
-          <div class="address-form__input address-form__input--size--small">
-            <label class="input">
-              <span>Дом*</span>
-              <input
-                type="text"
-                name="addr-house"
-                placeholder="Введите номер дома"
-                required
-              />
-            </label>
-          </div>
-          <div class="address-form__input address-form__input--size--small">
-            <label class="input">
-              <span>Квартира</span>
-              <input
-                type="text"
-                name="addr-apartment"
-                placeholder="Введите № квартиры"
-              />
-            </label>
-          </div>
-          <div class="address-form__input">
-            <label class="input">
-              <span>Комментарий</span>
-              <input
-                type="text"
-                name="addr-comment"
-                placeholder="Введите комментарий"
-              />
-            </label>
-          </div>
-        </div>
-
-        <div class="address-form__buttons">
-          <button type="button" class="button button--transparent">
-            Удалить
-          </button>
-          <button type="submit" class="button">Сохранить</button>
-        </div>
-      </form>
+    <div class="layout__address" v-if="isAdding">
+      <ProfileAddressForm
+        class="address-form--opened"
+        @cancel="hideAddingForm"
+        @submit="hideAddingForm"
+      />
     </div>
 
-    <div class="layout__button">
-      <button type="button" class="button button--border">
+    <div class="layout__button" v-else>
+      <button
+        type="button"
+        class="button button--border"
+        @click="showAddingForm"
+      >
         Добавить новый адрес
       </button>
     </div>
@@ -124,7 +49,37 @@
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex";
+
+import ProfileAddress from "../modules/builder/profile/components/ProfileAddress";
+import ProfileAddressForm from "../modules/builder/profile/components/ProfileAddressForm";
+
 export default {
   name: "Profile",
+  components: { ProfileAddressForm, ProfileAddress },
+  data() {
+    return {
+      isEditing: null,
+      isAdding: false,
+    };
+  },
+  computed: mapState("Auth", ["user", "addresses"]),
+  methods: {
+    ...mapActions("Auth", ["fetchAddresses"]),
+    toggleView({ id }) {
+      this.isEditing = this.isEditing === id ? null : id;
+      this.isAdding = false;
+    },
+    showAddingForm() {
+      this.isAdding = true;
+      this.isEditing = null;
+    },
+    hideAddingForm() {
+      this.isAdding = false;
+    },
+  },
+  mounted() {
+    this.fetchAddresses();
+  },
 };
 </script>
