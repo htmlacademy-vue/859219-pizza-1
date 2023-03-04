@@ -15,7 +15,6 @@ export default new Vuex.Store({
   getters: {},
   actions: {
     init({ dispatch }) {
-      dispatch("Auth/getMe");
       dispatch("Builder/fetchSourceDough");
       dispatch("Builder/fetchSourceIngredients");
       dispatch("Builder/fetchSourceSauces");

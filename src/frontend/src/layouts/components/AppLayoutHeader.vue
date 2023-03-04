@@ -42,9 +42,9 @@ export default {
   },
   methods: {
     ...mapActions("Auth", ["logout"]),
-    exit() {
-      this.logout();
-      this.$router.push("/login");
+    async exit() {
+      await this.logout();
+      await this.$router.push("/login");
     },
   },
 };

@@ -5,6 +5,11 @@ import {
   ReadOnlyApiService,
 } from "../services/api";
 
+export const setAuth = (store) => {
+  store.$api.auth.setAuthHeader();
+  store.dispatch("Auth/getMe");
+};
+
 export const createResources = (notifier) => {
   return {
     [Resource.ADDRESSES]: new CrudApiService(Resource.ADDRESSES, notifier),
