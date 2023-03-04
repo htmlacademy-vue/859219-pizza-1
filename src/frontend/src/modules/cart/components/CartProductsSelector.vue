@@ -1,37 +1,11 @@
 <template>
-  <ul class="cart-list sheet">
+  <ul class="cart-list sheet" v-if="cart.products.length">
     <li
       class="cart-list__item"
       v-for="product in cart.products"
       :key="product.id"
     >
-      <div class="product cart-list__product">
-        <img
-          src="../../../assets/img/product.svg"
-          class="product__img"
-          width="56"
-          height="56"
-          :alt="product.name"
-        />
-        <div class="product__text">
-          <h2>{{ product.name }}</h2>
-          <ul>
-            <li>
-              {{ product.size.name }}, на
-              {{ product.dough.name === "Тонкое" ? "тонком" : "толстом" }} тесте
-            </li>
-            <li>Соус: {{ product.sauce.name.toLowerCase() }}</li>
-            <li>
-              Начинка:
-              {{
-                product.ingredients
-                  .map((ingredient) => ingredient.name.toLowerCase())
-                  .join(", ")
-              }}
-            </li>
-          </ul>
-        </div>
-      </div>
+      <ProductCard class="cart-list__product" :product="product" />
 
       <ItemCounter
         class="counter--orange cart-list__counter"
@@ -55,16 +29,21 @@
       </div>
     </li>
   </ul>
+
+  <div class="sheet cart__empty" v-else>
+    <p>В корзине нет ни одного товара</p>
+  </div>
 </template>
 
 <script>
 import { mapMutations, mapState } from "vuex";
 
 import ItemCounter from "../../../common/components/ItemCounter";
+import ProductCard from "../../../common/components/ProductCard";
 
 export default {
   name: "CartProductsSelector",
-  components: { ItemCounter },
+  components: { ProductCard, ItemCounter },
   computed: mapState("Cart", ["source", "cart"]),
   methods: {
     ...mapMutations("Cart", ["changeCartProducts"]),

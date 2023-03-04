@@ -15,9 +15,11 @@ export default new Vuex.Store({
   getters: {},
   actions: {
     init({ dispatch }) {
-      dispatch("Auth/fetchUser");
-      dispatch("Auth/fetchAddresses");
-      dispatch("Builder/fetchSourceItems");
+      dispatch("Auth/getMe");
+      dispatch("Builder/fetchSourceDough");
+      dispatch("Builder/fetchSourceIngredients");
+      dispatch("Builder/fetchSourceSauces");
+      dispatch("Builder/fetchSourceSizes");
       dispatch("Cart/fetchSourceAdditions");
     },
   },

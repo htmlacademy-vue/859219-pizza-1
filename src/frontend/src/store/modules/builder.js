@@ -1,7 +1,5 @@
 import Vue from "vue";
 
-import pizza from "../../static/pizza.json";
-
 export default {
   namespaced: true,
   state: {
@@ -12,9 +10,9 @@ export default {
       ingredients: [],
     },
     pizza: {
-      dough: null,
-      size: null,
-      sauce: null,
+      dough: {},
+      size: {},
+      sauce: {},
       ingredients: [],
       name: "",
     },
@@ -27,7 +25,7 @@ export default {
     },
     pizzaCost(state) {
       const ingredientsCost = state.pizza.ingredients.reduce((sum, item) => {
-        return sum + (item?.count ?? 1) * item.price;
+        return sum + item.count * item.price;
       }, 0);
 
       return (
@@ -37,13 +35,20 @@ export default {
     },
   },
   mutations: {
-    setSource(state, payload) {
-      state.source = payload;
+    setSourceDough(state, payload) {
+      state.source.dough = payload;
+      state.pizza.dough = payload[0];
     },
-    setInitialPizza(state, payload) {
-      state.pizza.dough = payload.dough[0];
-      state.pizza.size = payload.sizes[0];
-      state.pizza.sauce = payload.sauces[0];
+    setSourceIngredients(state, payload) {
+      state.source.ingredients = payload;
+    },
+    setSourceSauces(state, payload) {
+      state.source.sauces = payload;
+      state.pizza.sauce = payload[0];
+    },
+    setSourceSizes(state, payload) {
+      state.source.sizes = payload;
+      state.pizza.size = payload.find((item) => item.multiplier === 1);
     },
     setCartPizza(state, payload) {
       Vue.set(state.pizza, "id", payload.id);
@@ -98,11 +103,37 @@ export default {
     },
   },
   actions: {
-    fetchSourceItems({ commit }) {
-      const response = pizza;
-
-      commit("setSource", response);
-      commit("setInitialPizza", response);
+    async fetchSourceDough({ commit }) {
+      try {
+        const dough = await this.$api.dough.query();
+        commit("setSourceDough", dough);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async fetchSourceIngredients({ commit }) {
+      try {
+        const ingredients = await this.$api.ingredients.query();
+        commit("setSourceIngredients", ingredients);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async fetchSourceSizes({ commit }) {
+      try {
+        const sizes = await this.$api.sizes.query();
+        commit("setSourceSizes", sizes);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async fetchSourceSauces({ commit }) {
+      try {
+        const sauces = await this.$api.sauces.query();
+        commit("setSourceSauces", sauces);
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };

@@ -1,5 +1,3 @@
-import misc from "../../static/misc.json";
-
 export default {
   namespaced: true,
   state: {
@@ -16,16 +14,20 @@ export default {
       street: "",
       house: "",
       apartment: "",
+      comment: "",
     },
   },
   getters: {
+    isCartEmpty(state) {
+      return !state.cart.products.length;
+    },
     totalCost(state) {
-      const productsCost = state.cart.products.reduce((sum, item) => {
-        return sum + (item?.count ?? 1) * item.price;
+      const productsCost = state.cart.products?.reduce((sum, item) => {
+        return sum + item.count * item.price;
       }, 0);
 
-      const additionsCost = state.cart.additions.reduce((sum, item) => {
-        return sum + (item?.count ?? 1) * item.price;
+      const additionsCost = state.cart.additions?.reduce((sum, item) => {
+        return sum + item.count * item.price;
       }, 0);
 
       return productsCost + additionsCost;
@@ -46,9 +48,20 @@ export default {
         state.cart.products.push(payload);
       }
     },
+    setCart(state, payload) {
+      state.cart.products = payload.products;
+      state.cart.additions = payload.additions;
+      state.form = payload.address;
+    },
     resetCart(state) {
       state.cart.products = [];
       state.cart.additions = [];
+      state.form.type = "self-delivery";
+      state.form.tel = "";
+      state.form.street = "";
+      state.form.house = "";
+      state.form.apartment = "";
+      state.form.comment = "";
     },
     changeCartProducts(state, { id, value }) {
       const itemIndex = state.cart.products.findIndex((item) => item.id === id);
@@ -59,6 +72,7 @@ export default {
         item.count = itemCount;
       } else {
         state.cart.products.splice(itemIndex, 1);
+        state.cart.additions = [];
       }
     },
     changeCartAdditions(state, { id, value }) {
@@ -85,19 +99,15 @@ export default {
     setFormFieldValue(state, field) {
       state.form[field.name] = field.value;
     },
-    resetForm(state) {
-      state.form.type = "self-delivery";
-      state.form.tel = "";
-      state.form.street = "";
-      state.form.house = "";
-      state.form.apartment = "";
-    },
   },
   actions: {
-    fetchSourceAdditions({ commit }) {
-      const response = misc;
-
-      commit("setSourceAdditions", response);
+    async fetchSourceAdditions({ commit }) {
+      try {
+        const additions = await this.$api.misc.query();
+        commit("setSourceAdditions", additions);
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };

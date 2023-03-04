@@ -24,23 +24,67 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex";
+import { mapActions, mapGetters, mapMutations, mapState } from "vuex";
 
 export default {
   name: "CartFooter",
-  computed: mapGetters("Cart", ["totalCost"]),
+  computed: {
+    ...mapState("Auth", ["user"]),
+    ...mapState("Cart", ["cart", "form"]),
+    ...mapGetters("Cart", ["totalCost"]),
+  },
   methods: {
-    ...mapMutations("Cart", ["resetCart", "resetForm"]),
     ...mapMutations("Builder", ["resetPizza"]),
+    ...mapMutations("Cart", ["resetCart"]),
+    ...mapActions("Orders", ["createOrder"]),
     makeAnotherPizza() {
       this.resetPizza();
       this.$router.push("/");
     },
-    makeOrder() {
-      this.$emit("open-popup");
-      this.resetPizza();
-      this.resetCart();
-      this.resetForm();
+    async makeOrder() {
+      const order = await this.createOrder({
+        userId: this.user?.id || null,
+        phone: this.form.tel,
+        address:
+          this.form.type === "self-delivery"
+            ? null
+            : this.form.type === "new-address"
+            ? {
+                street: this.form.street,
+                building: this.form.house,
+                flat: this.form.apartment,
+                comment: this.form.comment,
+              }
+            : {
+                id: this.form.type,
+              },
+        pizzas: this.cart.products.map((product) => {
+          return {
+            name: product.name,
+            sauceId: product.sauce.id,
+            doughId: product.dough.id,
+            sizeId: product.size.id,
+            quantity: product.count,
+            ingredients: product.ingredients.map((ingredient) => {
+              return {
+                ingredientId: ingredient.id,
+                quantity: ingredient.count,
+              };
+            }),
+          };
+        }),
+        misc: this.cart.additions.map((addition) => {
+          return {
+            miscId: addition.id,
+            quantity: addition.count,
+          };
+        }),
+      });
+      if (order) {
+        this.$emit("open-popup");
+        this.resetPizza();
+        this.resetCart();
+      }
     },
   },
 };

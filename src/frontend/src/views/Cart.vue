@@ -6,9 +6,7 @@
           <h1 class="title title--big">Корзина</h1>
         </div>
 
-        <CartEmpty v-if="isCartEmpty" />
-
-        <CartProductsSelector v-if="!isCartEmpty" />
+        <CartProductsSelector />
 
         <CartAdditionsSelector v-if="!isCartEmpty" />
 
@@ -27,7 +25,6 @@ import { mapGetters, mapState } from "vuex";
 
 import CartAdditionsSelector from "../modules/cart/components/CartAdditionsSelector";
 import CartDelivery from "../modules/cart/components/CartDelivery";
-import CartEmpty from "../modules/cart/components/CartEmpty";
 import CartFooter from "../modules/cart/components/CartFooter";
 import CartPopup from "../modules/cart/components/CartPopup";
 import CartProductsSelector from "../modules/cart/components/CartProductsSelector";
@@ -38,7 +35,6 @@ export default {
     CartPopup,
     CartAdditionsSelector,
     CartDelivery,
-    CartEmpty,
     CartFooter,
     CartProductsSelector,
   },
@@ -50,9 +46,7 @@ export default {
   computed: {
     ...mapState("Cart", ["cart"]),
     ...mapGetters("Auth", ["isAuthorized"]),
-    isCartEmpty() {
-      return !this.cart.products.length;
-    },
+    ...mapGetters("Cart", ["isCartEmpty"]),
   },
   methods: {
     openPopup() {

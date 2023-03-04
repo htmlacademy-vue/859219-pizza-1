@@ -7,15 +7,16 @@
         <select class="select" name="type" v-model="type">
           <option value="self-delivery">Заберу сам</option>
           <option value="new-address">Новый адрес</option>
-          <option
-            v-show="isAuthorized"
-            v-for="address in addresses"
-            :key="address.id"
-            :value="address.id"
-            :selected="address.id === type"
-          >
-            {{ address.name }}
-          </option>
+          <template v-if="isAuthorized">
+            <option
+              v-for="address in addresses"
+              :key="address.id"
+              :value="address.id"
+              :selected="address.id === type"
+            >
+              {{ address.name }}
+            </option>
+          </template>
         </select>
       </label>
 
@@ -38,6 +39,7 @@
             <input
               type="text"
               name="street"
+              required
               v-model="street"
               :disabled="isDisabled"
             />
@@ -50,6 +52,7 @@
             <input
               type="text"
               name="house"
+              required
               v-model="house"
               :disabled="isDisabled"
             />
@@ -73,13 +76,13 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapState } from "vuex";
+import { mapActions, mapGetters, mapMutations, mapState } from "vuex";
 
 export default {
   name: "CartDelivery",
   computed: {
     ...mapState("Cart", ["form"]),
-    ...mapState("Auth", ["addresses"]),
+    ...mapState("Auth", ["user", "addresses"]),
     ...mapGetters("Auth", ["isAuthorized"]),
     type: {
       get() {
@@ -137,6 +140,15 @@ export default {
       return this.type !== "new-address";
     },
   },
-  methods: mapMutations("Cart", ["setFormFieldValue"]),
+  methods: {
+    ...mapMutations("Cart", ["setFormFieldValue"]),
+    ...mapActions("Auth", ["fetchAddresses"]),
+  },
+  mounted() {
+    if (this.isAuthorized) {
+      this.tel = this.user.phone;
+      this.fetchAddresses();
+    }
+  },
 };
 </script>
