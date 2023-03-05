@@ -77,7 +77,7 @@ export default {
         const orders = await this.$api.orders.query();
         commit("setOrders", orders);
       } catch (error) {
-        this.$notifier.error(error);
+        console.log(error);
       }
     },
     async createOrder({ commit }, entity) {
@@ -86,7 +86,7 @@ export default {
         commit("addOrder", order);
         return order;
       } catch (error) {
-        this.$notifier.error(error);
+        console.log(error);
       }
     },
     async deleteOrder({ commit }, id) {
@@ -94,7 +94,7 @@ export default {
         await this.$api.orders.delete(id);
         commit("removeOrder", id);
       } catch (error) {
-        this.$notifier.error(error);
+        console.log(error);
       }
     },
   },

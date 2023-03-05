@@ -29,6 +29,7 @@ export default {
         ...this.pizza,
       });
       this.resetPizza();
+      this.$notifier.success("Пицца успешно добавлена в корзину");
     },
   },
 };

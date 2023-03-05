@@ -1,12 +1,12 @@
 export default {
   namespaced: true,
   state: {
-    user: null,
+    user: {},
     addresses: [],
   },
   getters: {
     isAuthorized(state) {
-      return !!state.user;
+      return !!state.user?.id;
     },
   },
   mutations: {
@@ -52,7 +52,7 @@ export default {
         if (isRequested) await this.$api.auth.logout();
         this.$jwt.destroyToken();
         this.$api.auth.setAuthHeader();
-        commit("setUser", null);
+        commit("setUser", {});
       } catch (error) {
         console.log(error);
       }
@@ -71,7 +71,7 @@ export default {
         const addresses = await this.$api.addresses.query();
         commit("setAddresses", addresses);
       } catch (error) {
-        this.$notifier.error(error);
+        console.log(error);
       }
     },
     async createAddress({ commit }, entity) {
@@ -79,7 +79,7 @@ export default {
         const address = await this.$api.addresses.post(entity);
         commit("addAddress", address);
       } catch (error) {
-        this.$notifier.error(error);
+        console.log(error);
       }
     },
     async updateAddress({ commit }, entity) {
@@ -87,7 +87,7 @@ export default {
         await this.$api.addresses.put(entity);
         commit("addAddress", entity);
       } catch (error) {
-        this.$notifier.error(error);
+        console.log(error);
       }
     },
     async deleteAddress({ commit }, id) {
@@ -95,7 +95,7 @@ export default {
         await this.$api.addresses.delete(id);
         commit("removeAddress", id);
       } catch (error) {
-        this.$notifier.error(error);
+        console.log(error);
       }
     },
   },

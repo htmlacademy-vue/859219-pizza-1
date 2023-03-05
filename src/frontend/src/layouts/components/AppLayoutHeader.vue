@@ -45,6 +45,7 @@ export default {
     async exit() {
       await this.logout();
       await this.$router.push("/login");
+      this.$notifier.success("Вы успешно вышли");
     },
   },
 };
