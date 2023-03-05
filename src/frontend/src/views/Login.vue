@@ -40,12 +40,27 @@
 <script>
 import { mapActions } from "vuex";
 
+import validator from "../common/mixins/validator";
+
 export default {
   name: "Login",
+  mixins: [validator],
   data() {
     return {
       email: "",
       password: "",
+      validations: {
+        email: {
+          name: "E-mail",
+          error: "",
+          rules: ["required", "email"],
+        },
+        password: {
+          name: "Пароль",
+          error: "",
+          rules: ["required"],
+        },
+      },
     };
   },
   methods: {
@@ -54,6 +69,15 @@ export default {
       this.$router.go(-1);
     },
     async submitCredentials() {
+      if (
+        !this.$validateFields(
+          { email: this.email, password: this.password },
+          this.validations
+        )
+      ) {
+        this.$showErrors();
+        return;
+      }
       const token = await this.login({
         email: this.email,
         password: this.password,

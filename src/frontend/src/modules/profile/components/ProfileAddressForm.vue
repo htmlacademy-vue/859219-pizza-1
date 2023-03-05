@@ -21,7 +21,6 @@
             type="text"
             name="addr-name"
             placeholder="Введите название адреса"
-            required
             v-model.trim="name"
           />
         </label>
@@ -33,7 +32,6 @@
             type="text"
             name="addr-street"
             placeholder="Введите название улицы"
-            required
             v-model.trim="street"
           />
         </label>
@@ -45,7 +43,6 @@
             type="text"
             name="addr-house"
             placeholder="Введите номер дома"
-            required
             v-model.trim="house"
           />
         </label>
@@ -90,8 +87,37 @@
 <script>
 import { mapActions, mapState } from "vuex";
 
+import validator from "../../../common/mixins/validator";
+
 export default {
   name: "ProfileAddressForm",
+  mixins: [validator],
+  data() {
+    return {
+      validations: {
+        name: {
+          error: "",
+          name: "Название адреса",
+          rules: ["required"],
+        },
+        street: {
+          name: "Улица",
+          error: "",
+          rules: ["required"],
+        },
+        house: {
+          name: "Дом",
+          error: "",
+          rules: ["required", "number"],
+        },
+        apartment: {
+          name: "Квартира",
+          error: "",
+          rules: ["number"],
+        },
+      },
+    };
+  },
   computed: {
     ...mapState("Auth", ["user"]),
     name: {
@@ -141,6 +167,20 @@ export default {
       this.address[field.name] = field.value;
     },
     submitForm($event) {
+      if (
+        !this.$validateFields(
+          {
+            name: this.name,
+            street: this.street,
+            house: this.house,
+            apartment: this.apartment,
+          },
+          this.validations
+        )
+      ) {
+        this.$showErrors();
+        return;
+      }
       this.isEditing ? this.submitEditingForm() : this.submitAddingForm();
       this.$emit("submit", $event);
     },

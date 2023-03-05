@@ -14,8 +14,8 @@
 <script>
 import { mapActions } from "vuex";
 
-import ProfileAddressCard from "./ProfileAddressCard";
-import ProfileAddressForm from "./ProfileAddressForm";
+import ProfileAddressCard from "./ProfileAddressCard.vue";
+import ProfileAddressForm from "./ProfileAddressForm.vue";
 
 export default {
   name: "ProfileAddress",

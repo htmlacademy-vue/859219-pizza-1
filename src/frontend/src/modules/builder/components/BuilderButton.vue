@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import { uniqueId } from "lodash";
 import { mapGetters, mapMutations, mapState } from "vuex";
 
 export default {
@@ -23,7 +24,7 @@ export default {
     ...mapMutations("Cart", ["setCartProduct"]),
     createPizza() {
       this.setCartProduct({
-        id: Math.floor(Math.random() * 100),
+        id: uniqueId("pizza-"),
         price: this.pizzaCost,
         count: 1,
         ...this.pizza,

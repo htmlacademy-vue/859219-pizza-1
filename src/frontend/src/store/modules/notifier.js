@@ -1,3 +1,5 @@
+import { uniqueId } from "lodash";
+
 export default {
   namespaced: true,
   state: {
@@ -19,7 +21,7 @@ export default {
     async createNotification({ commit }, entity) {
       const notification = {
         ...entity,
-        id: Math.floor(Math.random() * 100),
+        id: uniqueId("notification-"),
       };
       commit("addNotification", notification);
       setTimeout(() => commit("removeNotification", notification.id), 3000);

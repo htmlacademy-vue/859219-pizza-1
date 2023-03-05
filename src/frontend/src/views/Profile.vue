@@ -51,8 +51,8 @@
 <script>
 import { mapActions, mapState } from "vuex";
 
-import ProfileAddress from "../modules/builder/profile/components/ProfileAddress";
-import ProfileAddressForm from "../modules/builder/profile/components/ProfileAddressForm";
+import ProfileAddress from "../modules/profile/components/ProfileAddress";
+import ProfileAddressForm from "../modules/profile/components/ProfileAddressForm";
 
 export default {
   name: "Profile",
