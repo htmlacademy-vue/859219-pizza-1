@@ -6,12 +6,11 @@ const rules = {
     message: (name) => `Поле "${name}" обязательно для заполнения`,
   },
   email: {
-    rule: (value) =>
-      value ? EMAIL_REGEX.test(String(value).toLowerCase()) : true,
+    rule: (value) => (value ? EMAIL_REGEX.test(value.toLowerCase()) : true),
     message: (name) => `Значение в поле "${name}" имеет неверный формат`,
   },
   number: {
-    rule: (value) => NUMBER_REGEX.test(Number(value)),
+    rule: (value) => (value ? NUMBER_REGEX.test(value) : true),
     message: (name) => `Значение в поле "${name}" не является числом`,
   },
 };

@@ -10,20 +10,9 @@
     <div class="product__text">
       <h2>{{ product.name }}</h2>
       <ul>
-        <li>
-          {{ product.size.name }}, на
-          {{ product.dough.name === "Тонкое" ? "тонком" : "толстом" }}
-          тесте
-        </li>
-        <li>Соус: {{ product.sauce.name.toLowerCase() }}</li>
-        <li>
-          Начинка:
-          {{
-            product.ingredients
-              .map((ingredient) => ingredient.name.toLowerCase())
-              .join(", ")
-          }}
-        </li>
+        <li>{{ product.size.name }}, на {{ productDough }} тесте</li>
+        <li>Соус: {{ productSauce }}</li>
+        <li>Начинка: {{ productIngredients }}</li>
       </ul>
     </div>
   </div>
@@ -32,6 +21,19 @@
 <script>
 export default {
   name: "ProductCard",
+  computed: {
+    productDough() {
+      return this.product.dough.name === "Тонкое" ? "тонком" : "толстом";
+    },
+    productSauce() {
+      return this.product.sauce.name.toLowerCase();
+    },
+    productIngredients() {
+      return this.product.ingredients
+        .map((ingredient) => ingredient.name.toLowerCase())
+        .join(", ");
+    },
+  },
   props: {
     product: {
       type: Object,

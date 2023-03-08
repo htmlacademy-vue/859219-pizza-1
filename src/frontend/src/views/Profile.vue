@@ -5,7 +5,16 @@
     </div>
 
     <div class="user">
-      <img width="72" height="72" :src="user.avatar" :alt="user.name" />
+      <picture>
+        <source type="image/webp" :srcset="avatarSet([2, 4], true, true)" />
+        <img
+          width="72"
+          height="72"
+          :src="avatarSet([2])"
+          :srcset="avatarSet([4])"
+          :alt="user.name"
+        />
+      </picture>
       <div class="user__name">
         <span>{{ user.name }}</span>
       </div>
@@ -49,7 +58,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 
 import ProfileAddress from "../modules/profile/components/ProfileAddress";
 import ProfileAddressForm from "../modules/profile/components/ProfileAddressForm";
@@ -63,7 +72,10 @@ export default {
       isAdding: false,
     };
   },
-  computed: mapState("Auth", ["user", "addresses"]),
+  computed: {
+    ...mapState("Auth", ["user", "addresses"]),
+    ...mapGetters("Auth", ["avatarSet"]),
+  },
   methods: {
     ...mapActions("Auth", ["fetchAddresses"]),
     toggleView({ id }) {

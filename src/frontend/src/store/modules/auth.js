@@ -8,6 +8,33 @@ export default {
     isAuthorized(state) {
       return !!state.user?.id;
     },
+    avatarSet:
+      (state) =>
+      (scales = [], isWebp = false, isHQ = false) => {
+        const src = state.user.avatar;
+        const dotIndex = src?.lastIndexOf(".");
+        const res = isWebp ? ".webp" : src?.slice(dotIndex);
+        const file = src?.slice(0, dotIndex);
+        const avatarSet = [];
+
+        if (isWebp) {
+          scales.forEach((scale) => {
+            if (scale === 1) {
+              avatarSet.push(`${file}${res} 1x`);
+            } else {
+              avatarSet.push(
+                `${file}@${scale}x${res} ${isHQ ? scale / 2 : scale}x`
+              );
+            }
+          });
+        } else {
+          scales.forEach((scale) => {
+            avatarSet.push(`${file}@${scale}x${res}`);
+          });
+        }
+
+        return avatarSet.join(", ");
+      },
   },
   mutations: {
     setUser(state, payload) {

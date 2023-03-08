@@ -24,7 +24,7 @@ export default {
     isDraggable() {
       return !(
         this.pizza.ingredients.find((item) => item.id === this.ingredient.id)
-          ?.count === this.maxValue
+          ?.count === MAX_INGREDIENT_COUNT
       );
     },
     ingredientClass() {
@@ -43,10 +43,6 @@ export default {
     ingredient: {
       type: Object,
       required: true,
-    },
-    maxValue: {
-      type: Number,
-      default: MAX_INGREDIENT_COUNT,
     },
   },
 };
