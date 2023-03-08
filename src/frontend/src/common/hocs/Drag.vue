@@ -10,8 +10,6 @@
 </template>
 
 <script>
-import { DATA_TRANSFER_PAYLOAD, MOVE } from "../constants";
-
 export default {
   name: "Drag",
   props: {
@@ -26,12 +24,9 @@ export default {
   },
   methods: {
     onDrag({ dataTransfer }) {
-      dataTransfer.effectAllowed = MOVE;
-      dataTransfer.dropEffect = MOVE;
-      dataTransfer.setData(
-        DATA_TRANSFER_PAYLOAD,
-        JSON.stringify(this.transferData)
-      );
+      dataTransfer.effectAllowed = "move";
+      dataTransfer.dropEffect = "move";
+      dataTransfer.setData("payload", JSON.stringify(this.transferData));
     },
   },
 };

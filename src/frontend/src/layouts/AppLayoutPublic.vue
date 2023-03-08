@@ -13,11 +13,3 @@ export default {
   components: { AppLayoutHeader },
 };
 </script>
-
-<style scoped>
-#app {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-}
-</style>

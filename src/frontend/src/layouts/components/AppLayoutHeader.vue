@@ -13,16 +13,16 @@
     <div class="header__cart">
       <router-link to="/cart">{{ totalCost }} ₽</router-link>
     </div>
-    <div v-if="isAuthorized" class="header__user">
+    <div class="header__user" v-if="isAuthorized">
       <router-link to="/profile">
         <img width="32" height="32" :src="user.avatar" :alt="user.name" />
         <span>{{ user.name }}</span>
       </router-link>
-      <router-link to="/login" class="header__logout">
+      <a href="" class="header__logout" @click.prevent="exit">
         <span>Выйти</span>
-      </router-link>
+      </a>
     </div>
-    <div v-else class="header__user">
+    <div class="header__user" v-else>
       <router-link to="/login" class="header__login">
         <span>Войти</span>
       </router-link>
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 
 export default {
   name: "AppLayoutHeader",
@@ -39,6 +39,14 @@ export default {
     ...mapState("Auth", ["user"]),
     ...mapGetters("Auth", ["isAuthorized"]),
     ...mapGetters("Cart", ["totalCost"]),
+  },
+  methods: {
+    ...mapActions("Auth", ["logout"]),
+    async exit() {
+      await this.logout();
+      await this.$router.push("/login");
+      this.$notifier.success("Вы успешно вышли");
+    },
   },
 };
 </script>

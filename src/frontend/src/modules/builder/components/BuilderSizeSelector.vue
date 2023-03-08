@@ -7,9 +7,9 @@
         <RadioButton
           class="diameter__input"
           name="diameter"
-          v-for="size in source.sizes"
+          v-for="size in normalizedSourceSizes"
           :key="size.id"
-          :class="`diameter__input--${Size[size.id]}`"
+          :class="diameterInputClass(size)"
           :value="size.id"
           :checked="pizza.size.id === size.id"
           @change="changePizzaSize($event.target.value)"
@@ -22,10 +22,9 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from "vuex";
+import { mapGetters, mapMutations, mapState } from "vuex";
 
 import RadioButton from "../../../common/components/RadioButton";
-import { Size } from "../../../common/constants";
 
 export default {
   name: "BuilderSizeSelector",
@@ -33,13 +32,21 @@ export default {
     RadioButton,
   },
   computed: {
-    ...mapState("Builder", ["source", "pizza"]),
-    Size() {
-      return Size;
-    },
+    ...mapState("Builder", ["pizza"]),
+    ...mapGetters("Builder", ["normalizedSourceSizes"]),
   },
   methods: {
     ...mapMutations("Builder", ["changePizzaSize"]),
+    diameterInputClass({ multiplier }) {
+      switch (multiplier) {
+        case 1:
+          return "diameter__input--small";
+        case 2:
+          return "diameter__input--normal";
+        case 3:
+          return "diameter__input--big";
+      }
+    },
   },
 };
 </script>

@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import { uniqueId } from "lodash";
 import { mapGetters, mapMutations, mapState } from "vuex";
 
 export default {
@@ -23,12 +24,13 @@ export default {
     ...mapMutations("Cart", ["setCartProduct"]),
     createPizza() {
       this.setCartProduct({
-        id: Math.floor(Math.random() * 100),
+        id: uniqueId("pizza-"),
         price: this.pizzaCost,
-        value: 1,
+        count: 1,
         ...this.pizza,
       });
       this.resetPizza();
+      this.$notifier.success("Пицца успешно добавлена в корзину");
     },
   },
 };

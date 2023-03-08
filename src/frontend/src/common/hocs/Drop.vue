@@ -5,17 +5,13 @@
 </template>
 
 <script>
-import { DATA_TRANSFER_PAYLOAD } from "../constants";
-
 export default {
   name: "Drop",
   methods: {
     onDrop({ dataTransfer }) {
-      const payload = dataTransfer.getData(DATA_TRANSFER_PAYLOAD);
+      const payload = dataTransfer.getData("payload");
       if (payload) {
-        const transferData = JSON.parse(
-          dataTransfer.getData(DATA_TRANSFER_PAYLOAD)
-        );
+        const transferData = JSON.parse(dataTransfer.getData("payload"));
         this.$emit("drop", transferData);
       }
     },

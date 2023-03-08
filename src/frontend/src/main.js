@@ -1,6 +1,7 @@
 import Vue from "vue";
 
 import "./plugins/ui";
+import "./plugins/vue";
 import router from "./router";
 import store from "./store";
 import App from "./App";

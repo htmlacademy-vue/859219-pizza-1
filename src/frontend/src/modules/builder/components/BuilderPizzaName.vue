@@ -5,8 +5,7 @@
       type="text"
       name="pizza_name"
       placeholder="Введите название пиццы"
-      :value="pizza.name"
-      @input="changePizzaName($event.target.value)"
+      v-model="pizzaName"
     />
   </label>
 </template>
@@ -16,7 +15,17 @@ import { mapMutations, mapState } from "vuex";
 
 export default {
   name: "BuilderPizzaName",
-  computed: mapState("Builder", ["pizza"]),
+  computed: {
+    ...mapState("Builder", ["pizza"]),
+    pizzaName: {
+      get() {
+        return this.pizza.name;
+      },
+      set(value) {
+        this.changePizzaName(value);
+      },
+    },
+  },
   methods: mapMutations("Builder", ["changePizzaName"]),
 };
 </script>
