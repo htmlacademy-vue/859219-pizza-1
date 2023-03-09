@@ -1,6 +1,8 @@
 <template>
   <AppLayout>
-    <router-view />
+    <transition name="slide" mode="out-in" appear>
+      <router-view />
+    </transition>
   </AppLayout>
 </template>
 
@@ -26,4 +28,21 @@ export default {
 
 <style lang="scss">
 @import "./assets/scss/app";
+
+.slide {
+  &-enter {
+    opacity: 0;
+    margin-left: 90px;
+
+    &-active {
+      transition: all 0.4s;
+    }
+  }
+
+  &-leave-active {
+    transition: all 0.4s;
+    opacity: 0;
+    margin-left: -100px;
+  }
+}
 </style>
