@@ -2,12 +2,14 @@
   <Drop @drop="incrementCounterValue">
     <div class="pizza" :class="pizzaFoundationClass">
       <div class="pizza__wrapper">
-        <div
-          class="pizza__filling"
-          v-for="ingredient in pizza.ingredients"
-          :key="ingredient.id"
-          :class="pizzaFillingClass(ingredient)"
-        />
+        <transition-group name="ingredient" appear>
+          <div
+            class="pizza__filling"
+            v-for="ingredient in pizza.ingredients"
+            :key="ingredient.id"
+            :class="pizzaFillingClass(ingredient)"
+          />
+        </transition-group>
       </div>
     </div>
   </Drop>
@@ -60,3 +62,19 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.ingredient {
+  &-leave-to,
+  &-enter {
+    transform: scale(1.5);
+    transition: all 0.5s;
+  }
+
+  &-enter-to,
+  &-leave {
+    opacity: 1;
+    transition: all 0.5s;
+  }
+}
+</style>
