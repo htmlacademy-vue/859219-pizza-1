@@ -15,7 +15,16 @@
     </div>
     <div class="header__user" v-if="isAuthorized">
       <router-link to="/profile">
-        <img width="32" height="32" :src="user.avatar" :alt="user.name" />
+        <picture>
+          <source type="image/webp" :srcset="avatarSet([1, 2], true)" />
+          <img
+            width="32"
+            height="32"
+            :src="user.avatar"
+            :srcset="avatarSet([2])"
+            :alt="user.name"
+          />
+        </picture>
         <span>{{ user.name }}</span>
       </router-link>
       <a href="" class="header__logout" @click.prevent="exit">
@@ -37,7 +46,7 @@ export default {
   name: "AppLayoutHeader",
   computed: {
     ...mapState("Auth", ["user"]),
-    ...mapGetters("Auth", ["isAuthorized"]),
+    ...mapGetters("Auth", ["isAuthorized", "avatarSet"]),
     ...mapGetters("Cart", ["totalCost"]),
   },
   methods: {

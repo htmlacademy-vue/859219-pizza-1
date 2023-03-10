@@ -108,7 +108,9 @@
       </div>
     </section>
 
-    <CartPopup v-if="showPopup" @close-popup="closePopup" />
+    <transition name="popup">
+      <CartPopup v-if="showPopup" @close-popup="closePopup" />
+    </transition>
   </form>
 </template>
 
@@ -295,3 +297,17 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.popup {
+  &-enter-active,
+  &-leave-active {
+    transition: all 0.75s ease-in-out;
+  }
+
+  &-enter,
+  &-leave-to {
+    opacity: 0;
+  }
+}
+</style>
