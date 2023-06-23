@@ -1,0 +1,35 @@
+[
+  {
+    "id": "pizza-1",
+    "price": 900,
+    "count": 2,
+    "dough": {
+      "id": 1,
+      "name": "Тонкое",
+      "image": "/public/img/dough-light.svg",
+      "description": "Из твердых сортов пшеницы",
+      "price": 300
+    },
+    "size": {
+      "id": 1,
+      "name": "32 см",
+      "image": "/public/img/diameter.svg",
+      "multiplier": 2
+    },
+    "sauce": {
+      "id": 1,
+      "name": "Сливочный",
+      "price": 50
+    },
+    "ingredients": [
+      {
+        "id": 4,
+        "name" :"Лосось",
+        "image": "/public/img/filling/salmon.svg",
+        "price": 50,
+        "count": 2
+      }
+    ],
+    "name": "С лососем"
+  }
+]
