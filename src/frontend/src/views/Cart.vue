@@ -129,6 +129,7 @@ export default {
     CartAdditionsSelector,
     CartProductsSelector,
   },
+  layout: "AppLayoutPublic",
   mixins: [validator],
   data() {
     return {

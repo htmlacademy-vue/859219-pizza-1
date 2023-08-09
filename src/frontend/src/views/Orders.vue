@@ -80,10 +80,13 @@
 import { mapActions, mapGetters, mapMutations } from "vuex";
 
 import ProductCard from "../common/components/ProductCard";
+import { auth } from "../middlewares";
 
 export default {
   name: "Orders",
   components: { ProductCard },
+  layout: "AppLayoutPrivate",
+  middlewares: { auth },
   computed: mapGetters("Orders", ["normalizedOrders"]),
   methods: {
     ...mapMutations("Cart", ["setCart"]),

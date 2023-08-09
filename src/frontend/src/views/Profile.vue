@@ -60,12 +60,15 @@
 <script>
 import { mapActions, mapGetters, mapState } from "vuex";
 
+import { auth } from "../middlewares";
 import ProfileAddress from "../modules/profile/components/ProfileAddress";
 import ProfileAddressForm from "../modules/profile/components/ProfileAddressForm";
 
 export default {
   name: "Profile",
   components: { ProfileAddressForm, ProfileAddress },
+  layout: "AppLayoutPrivate",
+  middlewares: { auth },
   data() {
     return {
       isEditing: null,

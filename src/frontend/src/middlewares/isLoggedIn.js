@@ -3,5 +3,5 @@ export default function isLoggedIn({ next, store, nextMiddleware }) {
     next("/");
   }
 
-  return nextMiddleware();
+  return nextMiddleware;
 }
