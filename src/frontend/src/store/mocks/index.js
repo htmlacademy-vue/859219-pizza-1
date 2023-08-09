@@ -2,11 +2,11 @@ import Vuex from "vuex";
 
 import VuexPlugins from "../../plugins/vuex";
 
-import Auth from "../modules/auth";
-import Builder from "../modules/builder";
-import Cart from "../modules/cart";
-import Notifier from "../modules/notifier";
-import Orders from "../modules/orders";
+import Auth from "../modules/auth/store";
+import Builder from "../modules/builder/store";
+import Cart from "../modules/cart/store";
+import Notifier from "../modules/notifier/store";
+import Orders from "../modules/orders/store";
 
 export const createMockStore = (actions) => {
   const modules = {
