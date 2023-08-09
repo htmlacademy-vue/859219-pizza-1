@@ -11,5 +11,5 @@ export default function auth({ next, store, nextMiddleware }) {
     }
   }
 
-  return nextMiddleware();
+  return nextMiddleware;
 }

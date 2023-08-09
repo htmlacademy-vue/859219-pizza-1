@@ -30,5 +30,6 @@ export default {
     BuilderPizzaView,
     BuilderSizeSelector,
   },
+  layout: "AppLayoutPublic",
 };
 </script>
