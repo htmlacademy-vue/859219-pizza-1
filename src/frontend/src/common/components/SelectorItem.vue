@@ -1,23 +1,28 @@
 <template>
-  <Drag :transfer-data="ingredient" :draggable="isDraggable">
+  <DragItem :transfer-data="ingredient" :draggable="isDraggable">
     <span class="filling" :class="ingredientClass">
       {{ ingredient.name }}
     </span>
-  </Drag>
+  </DragItem>
 </template>
 
 <script>
 import { mapState } from "vuex";
 
-import Drag from "../../common/hocs/Drag";
-
 import { MAX_INGREDIENT_COUNT } from "../constants";
 import Ingredient from "../enums/ingredient";
+import DragItem from "../hocs/DragItem";
 
 export default {
   name: "SelectorItem",
   components: {
-    Drag,
+    DragItem,
+  },
+  props: {
+    ingredient: {
+      type: Object,
+      required: true,
+    },
   },
   computed: {
     ...mapState("Builder", ["pizza"]),
@@ -37,12 +42,6 @@ export default {
       }
 
       return `filling--${value}`;
-    },
-  },
-  props: {
-    ingredient: {
-      type: Object,
-      required: true,
     },
   },
 };

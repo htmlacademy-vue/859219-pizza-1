@@ -13,13 +13,13 @@ import { setAuth } from "./common/helpers";
 
 export default {
   name: "App",
-  methods: mapActions(["init"]),
   created() {
     if (this.$jwt.getToken()) {
       setAuth(this.$store);
     }
     this.init();
   },
+  methods: mapActions(["init"]),
 };
 </script>
 

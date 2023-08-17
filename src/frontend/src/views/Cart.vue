@@ -124,12 +124,12 @@ import validator from "../common/mixins/validator";
 
 export default {
   name: "Cart",
+  layout: "AppLayoutPublic",
   components: {
     CartPopup,
     CartAdditionsSelector,
     CartProductsSelector,
   },
-  layout: "AppLayoutPublic",
   mixins: [validator],
   data() {
     return {
@@ -214,6 +214,12 @@ export default {
       return this.type !== "new-address";
     },
   },
+  mounted() {
+    if (this.isAuthorized) {
+      this.tel = this.user.phone;
+      this.fetchAddresses();
+    }
+  },
   methods: {
     ...mapMutations("Builder", ["resetPizza"]),
     ...mapMutations("Cart", ["setFormFieldValue", "resetCart"]),
@@ -289,12 +295,6 @@ export default {
       this.showPopup = false;
       this.$router.push(this.isAuthorized ? "/orders" : "/");
     },
-  },
-  mounted() {
-    if (this.isAuthorized) {
-      this.tel = this.user.phone;
-      this.fetchAddresses();
-    }
   },
 };
 </script>

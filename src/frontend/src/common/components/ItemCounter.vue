@@ -29,6 +29,24 @@
 <script>
 export default {
   name: "ItemCounter",
+  props: {
+    item: {
+      type: Object,
+      required: true,
+    },
+    items: {
+      type: Array,
+      required: true,
+    },
+    minValue: {
+      type: Number,
+      default: 0,
+    },
+    maxValue: {
+      type: Number,
+      default: Infinity,
+    },
+  },
   computed: {
     currentItem() {
       return this.items.find((item) => item.id === this.item.id);
@@ -55,24 +73,6 @@ export default {
         id: this.item.id,
         value: 1,
       });
-    },
-  },
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    items: {
-      type: Array,
-      required: true,
-    },
-    minValue: {
-      type: Number,
-      default: 0,
-    },
-    maxValue: {
-      type: Number,
-      default: Infinity,
     },
   },
 };

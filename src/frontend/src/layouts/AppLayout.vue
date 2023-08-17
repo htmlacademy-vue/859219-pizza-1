@@ -1,29 +1,29 @@
 <template>
   <component :is="layout">
-    <Notifier />
+    <NotifierPopup />
     <slot />
   </component>
 </template>
 
 <script>
-import Notifier from "../common/components/Notifier";
+import NotifierPopup from "../common/components/NotifierPopup";
 
 const defaultLayout = "AppLayoutDefault";
 
 export default {
   name: "AppLayout",
-  components: { Notifier },
+  components: { NotifierPopup },
+  props: {
+    totalPrice: {
+      type: Number,
+      default: 0,
+    },
+  },
   computed: {
     layout() {
       const layout = this.$route.meta.layout || defaultLayout;
 
       return () => import(`@/layouts/${layout}.vue`);
-    },
-  },
-  props: {
-    totalPrice: {
-      type: Number,
-      default: 0,
     },
   },
 };

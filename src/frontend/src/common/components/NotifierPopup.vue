@@ -15,7 +15,7 @@
 <script>
 import { mapMutations, mapState } from "vuex";
 export default {
-  name: "Notifier",
+  name: "NotifierPopup",
   computed: mapState("Notifier", ["notifications"]),
   methods: {
     ...mapMutations("Notifier", ["removeNotification"]),

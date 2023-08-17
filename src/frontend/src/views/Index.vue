@@ -24,12 +24,12 @@ import BuilderSizeSelector from "../modules/builder/components/BuilderSizeSelect
 
 export default {
   name: "Index",
+  layout: "AppLayoutPublic",
   components: {
     BuilderDoughSelector,
     BuilderIngredientsSelector,
     BuilderPizzaView,
     BuilderSizeSelector,
   },
-  layout: "AppLayoutPublic",
 };
 </script>

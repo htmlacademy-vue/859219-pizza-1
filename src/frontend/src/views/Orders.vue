@@ -84,10 +84,13 @@ import { auth } from "../middlewares";
 
 export default {
   name: "Orders",
-  components: { ProductCard },
   layout: "AppLayoutPrivate",
   middlewares: { auth },
+  components: { ProductCard },
   computed: mapGetters("Orders", ["normalizedOrders"]),
+  mounted() {
+    this.fetchOrders();
+  },
   methods: {
     ...mapMutations("Cart", ["setCart"]),
     ...mapActions("Orders", ["fetchOrders", "deleteOrder"]),
@@ -123,9 +126,6 @@ export default {
       });
       this.$router.push("/cart");
     },
-  },
-  mounted() {
-    this.fetchOrders();
   },
 };
 </script>
