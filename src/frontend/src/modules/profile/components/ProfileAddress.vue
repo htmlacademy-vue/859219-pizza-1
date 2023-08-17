@@ -20,14 +20,6 @@ import ProfileAddressForm from "./ProfileAddressForm";
 export default {
   name: "ProfileAddress",
   components: { ProfileAddressCard, ProfileAddressForm },
-  computed: {
-    view() {
-      return this.isEditing === this.address.id
-        ? ProfileAddressForm
-        : ProfileAddressCard;
-    },
-  },
-  methods: mapActions("Auth", ["deleteAddress"]),
   props: {
     address: {
       type: Object,
@@ -38,5 +30,13 @@ export default {
       default: null,
     },
   },
+  computed: {
+    view() {
+      return this.isEditing === this.address.id
+        ? ProfileAddressForm
+        : ProfileAddressCard;
+    },
+  },
+  methods: mapActions("Auth", ["deleteAddress"]),
 };
 </script>

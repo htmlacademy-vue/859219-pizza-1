@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  name: "Drag",
+  name: "DragItem",
   props: {
     transferData: {
       type: Object,

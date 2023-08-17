@@ -66,9 +66,9 @@ import ProfileAddressForm from "../modules/profile/components/ProfileAddressForm
 
 export default {
   name: "Profile",
-  components: { ProfileAddressForm, ProfileAddress },
   layout: "AppLayoutPrivate",
   middlewares: { auth },
+  components: { ProfileAddressForm, ProfileAddress },
   data() {
     return {
       isEditing: null,
@@ -78,6 +78,9 @@ export default {
   computed: {
     ...mapState("Auth", ["user", "addresses"]),
     ...mapGetters("Auth", ["avatarSet"]),
+  },
+  mounted() {
+    this.fetchAddresses();
   },
   methods: {
     ...mapActions("Auth", ["fetchAddresses"]),
@@ -92,9 +95,6 @@ export default {
     hideAddingForm() {
       this.isAdding = false;
     },
-  },
-  mounted() {
-    this.fetchAddresses();
   },
 };
 </script>

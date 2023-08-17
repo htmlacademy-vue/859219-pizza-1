@@ -21,6 +21,12 @@
 <script>
 export default {
   name: "ProductCard",
+  props: {
+    product: {
+      type: Object,
+      required: true,
+    },
+  },
   computed: {
     productDough() {
       return this.product.dough.name === "Тонкое" ? "тонком" : "толстом";
@@ -32,12 +38,6 @@ export default {
       return this.product.ingredients
         .map((ingredient) => ingredient.name.toLowerCase())
         .join(", ");
-    },
-  },
-  props: {
-    product: {
-      type: Object,
-      required: true,
     },
   },
 };

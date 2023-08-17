@@ -65,6 +65,9 @@ export default {
       },
     };
   },
+  mounted() {
+    this.$refs.email.focus();
+  },
   methods: {
     ...mapActions("Auth", ["login"]),
     close() {
@@ -86,9 +89,6 @@ export default {
       });
       if (token) await this.$router.push("/");
     },
-  },
-  mounted() {
-    this.$refs.email.focus();
   },
 };
 </script>

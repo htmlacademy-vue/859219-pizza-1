@@ -92,6 +92,24 @@ import validator from "../../../common/mixins/validator";
 export default {
   name: "ProfileAddressForm",
   mixins: [validator],
+  props: {
+    address: {
+      type: Object,
+      default: () => {
+        return {
+          name: "",
+          street: "",
+          building: "",
+          flat: "",
+          comment: "",
+        };
+      },
+    },
+    isEditing: {
+      type: Number,
+      default: null,
+    },
+  },
   data() {
     return {
       validations: {
@@ -203,24 +221,6 @@ export default {
         comment: this.comment,
         ...this.address,
       });
-    },
-  },
-  props: {
-    address: {
-      type: Object,
-      default: () => {
-        return {
-          name: "",
-          street: "",
-          building: "",
-          flat: "",
-          comment: "",
-        };
-      },
-    },
-    isEditing: {
-      type: Number,
-      default: null,
     },
   },
 };

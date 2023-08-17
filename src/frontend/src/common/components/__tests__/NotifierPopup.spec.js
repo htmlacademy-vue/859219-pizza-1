@@ -3,12 +3,12 @@ import { createLocalVue, shallowMount } from "@vue/test-utils";
 
 import { createMockStore } from "../../../store/mocks";
 
-import Notifier from "../Notifier";
+import NotifierPopup from "../NotifierPopup";
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
 
-describe("Notifier specification", () => {
+describe("NotifierPopup specification", () => {
   const store = createMockStore();
   const errorNotification = {
     text: "Error text",
@@ -18,7 +18,7 @@ describe("Notifier specification", () => {
   let wrapper;
 
   const createComponent = (options) => {
-    wrapper = shallowMount(Notifier, options);
+    wrapper = shallowMount(NotifierPopup, options);
   };
 
   afterEach(() => {
