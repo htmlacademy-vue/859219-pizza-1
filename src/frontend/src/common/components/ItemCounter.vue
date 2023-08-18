@@ -34,14 +34,17 @@ export default {
       type: Object,
       required: true,
     },
+
     items: {
       type: Array,
       required: true,
     },
+
     minValue: {
       type: Number,
       default: 0,
     },
+
     maxValue: {
       type: Number,
       default: Infinity,
@@ -51,12 +54,15 @@ export default {
     currentItem() {
       return this.items.find((item) => item.id === this.item.id);
     },
+
     counterValue() {
       return this.currentItem?.count ?? this.minValue;
     },
+
     isDecrementDisabled() {
       return !this.currentItem;
     },
+
     isIncrementDisabled() {
       return this.currentItem?.count === this.maxValue;
     },
@@ -68,6 +74,7 @@ export default {
         value: -1,
       });
     },
+
     incrementCounterValue() {
       this.$emit("change-counter-value", {
         id: this.item.id,

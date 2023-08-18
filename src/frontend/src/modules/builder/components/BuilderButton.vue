@@ -22,6 +22,7 @@ export default {
   methods: {
     ...mapMutations("Builder", ["resetPizza"]),
     ...mapMutations("Cart", ["setCartProduct"]),
+
     createPizza() {
       this.setCartProduct({
         id: uniqueId("pizza-"),

@@ -11,12 +11,13 @@
 
 <script>
 export default {
-  name: "DragItem",
+  name: "AppDrag",
   props: {
     transferData: {
       type: Object,
       required: true,
     },
+
     draggable: {
       type: Boolean,
       default: true,

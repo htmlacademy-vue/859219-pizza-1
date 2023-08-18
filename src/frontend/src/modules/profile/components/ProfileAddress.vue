@@ -25,6 +25,7 @@ export default {
       type: Object,
       required: true,
     },
+
     isEditing: {
       type: Number,
       default: null,

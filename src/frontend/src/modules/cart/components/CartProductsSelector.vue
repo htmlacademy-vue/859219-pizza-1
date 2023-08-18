@@ -48,6 +48,7 @@ export default {
   methods: {
     ...mapMutations("Cart", ["changeCartProducts"]),
     ...mapMutations("Builder", ["setCartPizza"]),
+
     changeProduct(product) {
       this.setCartPizza(product);
       this.$router.push("/");
