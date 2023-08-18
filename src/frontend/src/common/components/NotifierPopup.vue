@@ -19,6 +19,7 @@ export default {
   computed: mapState("Notifier", ["notifications"]),
   methods: {
     ...mapMutations("Notifier", ["removeNotification"]),
+
     typeClass({ type }) {
       return `notifier--${type}`;
     },

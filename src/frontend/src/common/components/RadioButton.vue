@@ -19,6 +19,7 @@ export default {
       type: Number,
       required: true,
     },
+
     checked: {
       type: Boolean,
       required: true,

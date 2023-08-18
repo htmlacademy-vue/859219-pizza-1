@@ -158,6 +158,7 @@ export default {
     ...mapState("Cart", ["cart", "form"]),
     ...mapGetters("Auth", ["isAuthorized"]),
     ...mapGetters("Cart", ["isCartEmpty", "totalCost"]),
+
     type: {
       get() {
         return this.form.type;
@@ -178,6 +179,7 @@ export default {
         }
       },
     },
+
     tel: {
       get() {
         return this.form.tel;
@@ -186,6 +188,7 @@ export default {
         this.setFormFieldValue({ name: "tel", value });
       },
     },
+
     street: {
       get() {
         return this.form.street;
@@ -194,6 +197,7 @@ export default {
         this.setFormFieldValue({ name: "street", value });
       },
     },
+
     house: {
       get() {
         return this.form.house;
@@ -202,6 +206,7 @@ export default {
         this.setFormFieldValue({ name: "house", value });
       },
     },
+
     apartment: {
       get() {
         return this.form.apartment;
@@ -210,6 +215,7 @@ export default {
         this.setFormFieldValue({ name: "apartment", value });
       },
     },
+
     isDisabled() {
       return this.type !== "new-address";
     },
@@ -225,10 +231,12 @@ export default {
     ...mapMutations("Cart", ["setFormFieldValue", "resetCart"]),
     ...mapActions("Auth", ["fetchAddresses"]),
     ...mapActions("Orders", ["createOrder"]),
+
     makeAnotherPizza() {
       this.resetPizza();
       this.$router.push("/");
     },
+
     async makeOrder() {
       if (
         this.form.type === "new-address" &&
@@ -288,9 +296,11 @@ export default {
         this.resetCart();
       }
     },
+
     openPopup() {
       this.showPopup = true;
     },
+
     closePopup() {
       this.showPopup = false;
       this.$router.push(this.isAuthorized ? "/orders" : "/");

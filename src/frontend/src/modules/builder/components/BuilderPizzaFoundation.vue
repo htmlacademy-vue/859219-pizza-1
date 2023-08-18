@@ -1,5 +1,5 @@
 <template>
-  <DropItem @drop="incrementCounterValue">
+  <AppDrop @drop="incrementCounterValue">
     <div class="pizza" :class="pizzaFoundationClass">
       <div class="pizza__wrapper">
         <transition-group name="ingredient" appear>
@@ -12,20 +12,21 @@
         </transition-group>
       </div>
     </div>
-  </DropItem>
+  </AppDrop>
 </template>
 
 <script>
 import { mapMutations, mapState } from "vuex";
 
 import Ingredient from "../../../common/enums/ingredient";
-import DropItem from "../../../common/hocs/DropItem";
+import AppDrop from "../../../common/hocs/AppDrop";
 
 export default {
   name: "BuilderPizzaFoundation",
-  components: { DropItem },
+  components: { AppDrop },
   computed: {
     ...mapState("Builder", ["pizza"]),
+
     pizzaFoundationClass() {
       const pizzaDough = this.pizza.dough.name === "Тонкое" ? "small" : "big";
       const pizzaSauce =
@@ -36,12 +37,14 @@ export default {
   },
   methods: {
     ...mapMutations("Builder", ["changePizzaIngredients"]),
+
     incrementCounterValue({ id }) {
       this.changePizzaIngredients({
         id,
         value: 1,
       });
     },
+
     pizzaFillingClass({ name, count }) {
       let value = "";
 

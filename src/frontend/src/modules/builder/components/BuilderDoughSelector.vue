@@ -34,9 +34,7 @@ export default {
   components: {
     RadioButton,
   },
-  computed: {
-    ...mapState("Builder", ["source", "pizza"]),
-  },
+  computed: mapState("Builder", ["source", "pizza"]),
   methods: mapMutations("Builder", ["changePizzaDough"]),
 };
 </script>

@@ -37,6 +37,7 @@ export default {
   },
   methods: {
     ...mapMutations("Builder", ["changePizzaSize"]),
+
     diameterInputClass({ multiplier }) {
       switch (multiplier) {
         case 1:

@@ -31,9 +31,11 @@ export default {
     productDough() {
       return this.product.dough.name === "Тонкое" ? "тонком" : "толстом";
     },
+
     productSauce() {
       return this.product.sauce.name.toLowerCase();
     },
+
     productIngredients() {
       return this.product.ingredients
         .map((ingredient) => ingredient.name.toLowerCase())

@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "DropItem",
+  name: "AppDrop",
   methods: {
     onDrop({ dataTransfer }) {
       const payload = dataTransfer.getData("payload");

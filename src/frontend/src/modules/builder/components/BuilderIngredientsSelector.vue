@@ -64,9 +64,11 @@ export default {
   },
   computed: {
     ...mapState("Builder", ["source", "pizza"]),
+
     Ingredient() {
       return Ingredient;
     },
+
     MAX_VALUE() {
       return MAX_INGREDIENT_COUNT;
     },

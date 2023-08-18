@@ -84,14 +84,17 @@ export default {
   },
   methods: {
     ...mapActions("Auth", ["fetchAddresses"]),
+
     toggleView({ id }) {
       this.isEditing = this.isEditing === id ? null : id;
       this.isAdding = false;
     },
+
     showAddingForm() {
       this.isAdding = true;
       this.isEditing = null;
     },
+
     hideAddingForm() {
       this.isAdding = false;
     },

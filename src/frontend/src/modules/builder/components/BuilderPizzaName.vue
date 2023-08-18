@@ -17,6 +17,7 @@ export default {
   name: "BuilderPizzaName",
   computed: {
     ...mapState("Builder", ["pizza"]),
+
     pizzaName: {
       get() {
         return this.pizza.name;

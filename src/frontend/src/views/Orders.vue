@@ -94,6 +94,7 @@ export default {
   methods: {
     ...mapMutations("Cart", ["setCart"]),
     ...mapActions("Orders", ["fetchOrders", "deleteOrder"]),
+
     pizzaCost(pizza) {
       const ingredientsCost = pizza.ingredients.reduce((sum, item) => {
         return sum + item.count * item.price;
@@ -104,19 +105,23 @@ export default {
         (pizza.dough.price + pizza.sauce.price + ingredientsCost)
       );
     },
+
     totalCost(order) {
       const productsCost = order.products?.reduce((sum, item) => {
-          return sum + item.count * this.pizzaCost(item);
-        }, 0),
-        additionsCost = order.additions?.reduce((sum, item) => {
-          return sum + item.count * item.price;
-        }, 0);
+        return sum + item.count * this.pizzaCost(item);
+      }, 0);
+
+      const additionsCost = order.additions?.reduce((sum, item) => {
+        return sum + item.count * item.price;
+      }, 0);
 
       return productsCost + additionsCost;
     },
+
     removeOrder(id) {
       this.deleteOrder(id);
     },
+
     repeatOrder(order) {
       this.setCart({
         ...order,

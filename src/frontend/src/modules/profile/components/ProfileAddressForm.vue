@@ -105,6 +105,7 @@ export default {
         };
       },
     },
+
     isEditing: {
       type: Number,
       default: null,
@@ -138,6 +139,7 @@ export default {
   },
   computed: {
     ...mapState("Auth", ["user"]),
+
     name: {
       get() {
         return this.address.name;
@@ -146,6 +148,7 @@ export default {
         this.setFormFieldValue({ name: "name", value });
       },
     },
+
     street: {
       get() {
         return this.address.street;
@@ -154,6 +157,7 @@ export default {
         this.setFormFieldValue({ name: "street", value });
       },
     },
+
     house: {
       get() {
         return this.address.building;
@@ -162,6 +166,7 @@ export default {
         this.setFormFieldValue({ name: "building", value });
       },
     },
+
     apartment: {
       get() {
         return this.address.flat;
@@ -170,6 +175,7 @@ export default {
         this.setFormFieldValue({ name: "flat", value });
       },
     },
+
     comment: {
       get() {
         return this.address.comment;
@@ -181,9 +187,11 @@ export default {
   },
   methods: {
     ...mapActions("Auth", ["createAddress", "updateAddress"]),
+
     setFormFieldValue(field) {
       this.address[field.name] = field.value;
     },
+
     submitForm($event) {
       if (
         !this.$validateFields(
@@ -202,6 +210,7 @@ export default {
       this.isEditing ? this.submitEditingForm() : this.submitAddingForm();
       this.$emit("submit", $event);
     },
+
     submitAddingForm() {
       this.createAddress({
         userId: this.user.id,
@@ -212,6 +221,7 @@ export default {
         comment: this.comment,
       });
     },
+
     submitEditingForm() {
       this.updateAddress({
         name: this.name,

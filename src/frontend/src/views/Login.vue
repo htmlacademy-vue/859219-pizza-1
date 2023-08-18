@@ -70,9 +70,11 @@ export default {
   },
   methods: {
     ...mapActions("Auth", ["login"]),
+
     close() {
       this.$router.go(-1);
     },
+
     async submitCredentials() {
       if (
         !this.$validateFields(
